@@ -82,6 +82,9 @@ service Bundle {
 }
 
 message ListBundlesRequest {
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 1;
+
     // The maximum number of items to return.
     int32 page_size = 2;
 
@@ -101,6 +104,9 @@ message GetBundleRequest {
     // The trust domain of the bundle, e.g. example.org. If unset, the bundle
     // for the trust domain that the server belongs to is returned.
     string trust_domain = 1;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 2;
 }
 
 message CreateBundleRequest {
