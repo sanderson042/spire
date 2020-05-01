@@ -113,10 +113,11 @@ message NewDownstreamX509CARequest {
 }
 
 message NewDownstreamX509CAResponse {
-    // CA certificate and any intermediates part of the chain back to the root
-    // (DER encoded). The CA certificate is the first. 
+    // CA certificate and any intermediates required to form a chain of trust
+    // back to the X.509 authorities (DER encoded). The CA certificate is the
+    // first.
     repeated bytes ca_cert_chain = 1;
 
-    // Root CA certificates (DER encoded).
-    repeated bytes root_cas = 2;
+    // X.509 authorities (DER encoded).
+    repeated bytes x509_authorities = 2;
 }

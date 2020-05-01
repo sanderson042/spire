@@ -23,8 +23,8 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 // X.509 SPIFFE Verifiable Identity Document. It contains the raw X.509
 // certificate data as well as a few denormalized fields for convenience.
 type X509SVID struct {
-	// Certificate and intermediates necessary to form a chain of trust back to
-	// a root CA in the bundle (ASN.1 DER encoded).
+	// Certificate and intermediates required to form a chain of trust back to
+	// the X.509 authorities of the trust domain (ASN.1 DER encoded).
 	CertChain [][]byte `protobuf:"bytes,1,rep,name=cert_chain,json=certChain,proto3" json:"cert_chain,omitempty"`
 	// SPIFFE ID in the SVID.
 	SpiffeId string `protobuf:"bytes,2,opt,name=spiffe_id,json=spiffeId,proto3" json:"spiffe_id,omitempty"`
