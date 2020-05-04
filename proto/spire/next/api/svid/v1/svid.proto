@@ -6,23 +6,25 @@ import "spire/next/types/svid/jwtsvid.proto";
 import "spire/next/types/svid/x509svid.proto";
 
 service SVID {
-    // MintX509SVID creates an X509-SVID.
+    // Mints a one-off X509-SVID outside of the normal node/workload
+    // registration process.
     //
     // The caller must be local or present an admin X509-SVID.
     rpc MintX509SVID(MintX509SVIDRequest) returns (MintX509SVIDResponse);
 
-    // MintJWTSVID creates an JWT-SVID.
+    // Mints a one-off JWT-SVID outside of the normal node/workload
+    // registration process.
     //
     // The caller must be local or present an admin X509-SVID.
     rpc MintJWTSVID(MintJWTSVIDRequest) returns (MintJWTSVIDResponse);
 
-    // Creates an X509-SVID. The caller must be authorized for the given entry.
+    // Creates an X509-SVID for a registration entry.
     //
     // The caller must present an active agent X509-SVID that is authorized
     // to mint the requested entry. See the Entry GetAuthorizedEntries RPC.
     rpc NewX509SVID(NewX509SVIDRequest) returns (NewX509SVIDResponse);
 
-    // Creates an JWT-SVID. The caller must be authorized for the given entry.
+    // Creates an JWT-SVID for a registration entry.
     //
     // The caller must present an active agent X509-SVID that is authorized
     // to mint the requested entry. See the Entry GetAuthorizedEntries RPC.
