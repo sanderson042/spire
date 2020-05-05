@@ -3,6 +3,7 @@ package spire.api.server.svid.v1;
 option go_package = "github.com/spiffe/spire/proto/spire-next/api/server/svid/v1;svid";
 
 import "spire-next/types/jwtsvid.proto";
+import "spire-next/types/status.proto";
 import "spire-next/types/x509svid.proto";
 
 service SVID {
@@ -18,13 +19,13 @@ service SVID {
     // The caller must be local or present an admin X509-SVID.
     rpc MintJWTSVID(MintJWTSVIDRequest) returns (MintJWTSVIDResponse);
 
-    // Creates an X509-SVID for a registration entry.
+    // Creates one or more X509-SVIDs from registration entries.
     //
     // The caller must present an active agent X509-SVID that is authorized
-    // to mint the requested entry. See the Entry GetAuthorizedEntries RPC.
-    rpc NewX509SVID(NewX509SVIDRequest) returns (NewX509SVIDResponse);
+    // to mint the requested entries. See the Entry GetAuthorizedEntries RPC.
+    rpc BatchNewX509SVID(BatchNewX509SVIDRequest) returns (BatchNewX509SVIDResponse);
 
-    // Creates an JWT-SVID for a registration entry.
+    // Creates an JWT-SVID from a registration entry.
     //
     // The caller must present an active agent X509-SVID that is authorized
     // to mint the requested entry. See the Entry GetAuthorizedEntries RPC.
@@ -75,19 +76,23 @@ message MintJWTSVIDResponse {
     spire.types.JWTSVID svid = 1;
 }
 
-message NewX509SVIDRequest {
-    // Required. The entry ID for the identity being requested.
-    string entry_id = 1;
-
-    // Required. The ASN.1 DER encoded Certificate Signing Request (CSR). The
-    // CSR is only used to convey the public key; other fields in the CSR are
-    // ignored. The X509-SVID attributes are determined by the entry.
-    bytes csr = 2;
+message BatchNewX509SVIDRequest {
+    // Required. One or more X509-SVID parameters for X509-SVID entries to
+    // be signed.
+    repeated NewX509SVIDParams params = 1;
 }
 
-message NewX509SVIDResponse {
-    // The newly issued X509-SVID.
-    spire.types.X509SVID svid = 1;
+message BatchNewX509SVIDResponse {
+    message Result {
+        // The status of creating the X509-SVID.
+        spire.types.Status status = 1;
+
+        // The newly created X509-SVID. This will be set if the status is OK.
+        spire.types.X509SVID bundle = 2;
+    }
+
+    // Result for each X509-SVID requested.
+    repeated Result results = 1;
 }
 
 message NewJWTSVIDRequest {
@@ -122,4 +127,14 @@ message NewDownstreamX509CAResponse {
 
     // X.509 authorities (DER encoded).
     repeated bytes x509_authorities = 2;
+}
+
+message NewX509SVIDParams {
+    // Required. The entry ID for the identity being requested.
+    string entry_id = 1;
+
+    // Required. The ASN.1 DER encoded Certificate Signing Request (CSR). The
+    // CSR is only used to convey the public key; other fields in the CSR are
+    // ignored. The X509-SVID attributes are determined by the entry.
+    bytes csr = 2;
 }
