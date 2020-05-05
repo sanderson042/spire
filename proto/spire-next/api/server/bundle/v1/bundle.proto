@@ -1,0 +1,232 @@
+syntax = "proto3";
+package spire.api.server.bundle.v1;
+option go_package = "github.com/spiffe/spire/proto/spire-next/api/server/bundle/v1;bundle";
+
+import "google/protobuf/empty.proto";
+import "spire-next/types/bundle.proto";
+import "spire-next/types/status.proto";
+
+service Bundle {
+    // Lists bundles.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc ListBundles(ListBundlesRequest) returns (ListBundlesResponse);
+
+    // Gets a bundle. If the bundle does not exist, NOT_FOUND is returned.
+    //
+    // The caller must be local or present an admin X509-SVID, unless the
+    // bundle for the trust domain of the server is requested, in which case,
+    // the RPC is unauthenticated.
+    rpc GetBundle(GetBundleRequest) returns (spire.types.Bundle);
+
+    // Creates a bundle. If the bundle already exists, ALREADY_EXISTS is
+    // returned. If the bundle is for the trust domain of the SPIRE server,
+    // INVALID_ARGUMENT is returned.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc CreateBundle(CreateBundleRequest) returns (spire.types.Bundle);
+
+    // Batch creates one or more bundles. See CreateBundle for details on
+    // the status codes that will be returned in the results.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc BatchCreateBundle(BatchCreateBundleRequest) returns (BatchCreateBundleResponse);
+
+    // Updates a bundle. If the bundle does not exist, NOT_FOUND is returned.
+    // If the bundle is for the trust domain of the SPIRE server,
+    // INVALID_ARGUMENT is returned.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc UpdateBundle(UpdateBundleRequest) returns (spire.types.Bundle);
+
+    // Batch updates one or more bundles. See UpdateBundle for details on
+    // the status codes that will be returned in the results.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc BatchUpdateBundle(BatchUpdateBundleRequest) returns (BatchUpdateBundleResponse);
+
+    // Sets a bundle, creating a new bundle if one doesn't already exist for
+    // the trust domain, or otherwise updating the existing bundle. If the
+    // bundle is for the trust domain of the SPIRE server, INVALID_ARGUMENT is
+    // returned.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc SetBundle(SetBundleRequest) returns (spire.types.Bundle);
+
+    // Batch upserts one or more bundles. See SetBundle for details on the
+    // status codes that will be returned in the results.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc BatchSetBundle(BatchSetBundleRequest) returns (BatchSetBundleResponse);
+
+    // Append to a bundle. Items specified in the bundle in the request are
+    // appended to the existing bundle. If the bundle does not exist, NOT_FOUND
+    // is returned. This is the only RPC that can be used to update the
+    // bundle for the trust domain of the SPIRE server.
+    //
+    // The caller must be local or present an admin or downstream X509-SVID.
+    rpc AppendBundle(AppendBundleRequest) returns (spire.types.Bundle);
+
+    // Deletes a bundle. If the bundle does not exist, NOT_FOUND is returned.
+    // If the bundle is for the trust domain of the SPIRE server,
+    // INVALID_ARGUMENT is returned.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc DeleteBundle(DeleteBundleRequest) returns (google.protobuf.Empty);
+
+    // Batch deletes one or more bundles. See DeleteBundle for details on
+    // the status codes that will be returned in the results.
+    //
+    // The caller must be local or present an admin X509-SVID.
+    rpc BatchDeleteBundle(BatchDeleteBundleRequest) returns (BatchDeleteBundleResponse);
+}
+
+message ListBundlesRequest {
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 1;
+
+    // The maximum number of items to return.
+    int32 page_size = 2;
+
+    // The next_page_token value returned from a previous List request, if any.
+    string page_token = 3;
+}
+
+message ListBundlesResponse {
+    // The bundles.
+    repeated spire.types.Bundle bundles = 1;
+
+    // The page token for the next request. Empty if there are no more results.
+    string next_page_token = 2;
+}
+
+message GetBundleRequest {
+    // The trust domain of the bundle, e.g. example.org. If unset, the bundle
+    // for the trust domain that the server belongs to is returned.
+    string trust_domain = 1;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 2;
+}
+
+message CreateBundleRequest {
+    // Required. The bundle to create.
+    spire.types.Bundle bundle = 1;
+}
+
+message BatchCreateBundleRequest {
+    // The bundles to be created.
+    repeated spire.types.Bundle bundle = 1;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 2;
+}
+
+message BatchCreateBundleResponse {
+    message Result {
+        // The status of creating the bundle.
+        spire.types.Status status = 1;
+
+        // The bundle that was created. This will be set if the status is OK.
+        spire.types.Bundle bundle = 2;
+    }
+
+    // Result for each bundle in the request.
+    repeated Result results = 1;
+}
+
+message UpdateBundleRequest {
+    // Required. The bundle to update.
+    spire.types.Bundle bundle = 1;
+
+    // An input mask indicating which bundle fields should be updated.
+    spire.types.BundleMask input_mask = 2;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 3;
+}
+
+message BatchUpdateBundleRequest {
+    // The bundles to be updated.
+    repeated spire.types.Bundle bundle = 1;
+
+    // An input mask indicating which bundle fields should be updated.
+    spire.types.BundleMask input_mask = 2;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 3;
+}
+
+message BatchUpdateBundleResponse {
+    message Result {
+        // The status of updating the bundle.
+        spire.types.Status status = 1;
+
+        // The bundle that was updated. This will be set if the status is OK.
+        spire.types.Bundle bundle = 2;
+    }
+
+    // Result for each bundle in the request.
+    repeated Result results = 1;
+}
+
+message SetBundleRequest {
+    // Required. The bundle to create or update.
+    spire.types.Bundle bundle = 1;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 2;
+}
+
+message BatchSetBundleRequest {
+    // The bundles to be upserted.
+    repeated spire.types.Bundle bundle = 1;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 2;
+}
+
+message BatchSetBundleResponse {
+    message Result {
+        // The status of upserting the bundle.
+        spire.types.Status status = 1;
+
+        // The bundle that was upserted. This will be set if the status is OK.
+        spire.types.Bundle bundle = 2;
+    }
+
+    // Result for each bundle in the request.
+    repeated Result results = 1;
+}
+
+message AppendBundleRequest {
+    // Required. The bundle to append.
+    spire.types.Bundle bundle = 1;
+
+    // An output mask indicating which bundle fields are set in the response.
+    spire.types.BundleMask output_mask = 2;
+}
+
+message DeleteBundleRequest {
+    // Required. The trust domain of the bundle, e.g. example.org. It cannot
+    // be the bundle for the trust domain the server belongs to.
+    string trust_domain = 1;
+}
+
+message BatchDeleteBundleRequest {
+    // The trust domains of the bundles to be deleted.
+    repeated string trust_domains = 1;
+}
+
+message BatchDeleteBundleResponse {
+    message Result {
+        // The status of deleting the bundle.
+        spire.types.Status status = 1;
+
+        // The trust domain of the bundle that was deleted.
+        string trust_domain = 2;
+    }
+
+    // Result for each bundle in the request.
+    repeated Result results = 1;
+}

@@ -142,19 +142,19 @@ protos := \
 	proto/spire/server/notifier/notifier.proto \
 	proto/spire/server/upstreamauthority/upstreamauthority.proto \
 	proto/spire/server/upstreamca/upstreamca.proto \
-	proto/spire/next/api/agent/v1/agent.proto \
-	proto/spire/next/api/bundle/v1/bundle.proto \
-	proto/spire/next/api/entry/v1/entry.proto \
-	proto/spire/next/api/svid/v1/svid.proto \
-	proto/spire/next/types/agent.proto \
-	proto/spire/next/types/attestation.proto \
-	proto/spire/next/types/bundle.proto \
-	proto/spire/next/types/entry.proto \
-	proto/spire/next/types/join_token.proto \
-	proto/spire/next/types/selector.proto \
-	proto/spire/next/types/status.proto \
-	proto/spire/next/types/svid/jwtsvid.proto \
-	proto/spire/next/types/svid/x509svid.proto \
+	proto/spire-next/api/server/agent/v1/agent.proto \
+	proto/spire-next/api/server/bundle/v1/bundle.proto \
+	proto/spire-next/api/server/entry/v1/entry.proto \
+	proto/spire-next/api/server/svid/v1/svid.proto \
+	proto/spire-next/types/agent.proto \
+	proto/spire-next/types/attestation.proto \
+	proto/spire-next/types/bundle.proto \
+	proto/spire-next/types/entry.proto \
+	proto/spire-next/types/jointoken.proto \
+	proto/spire-next/types/jwtsvid.proto \
+	proto/spire-next/types/selector.proto \
+	proto/spire-next/types/status.proto \
+	proto/spire-next/types/x509svid.proto \
 
 
 protodocs := \
@@ -182,7 +182,7 @@ protodocs := \
 #
 # "shared" means that the interface shares a package with other interfaces, which
 # impacts the code generation (adds stutter to disambiguate names)
-plugingen_plugins = \
+kkkkkkkkkkkkkkkkplugingen_plugins = \
 	proto/spire/server/notifier/notifier.proto,pkg/server/plugin/notifier,Notifier \
 	proto/spire/server/nodeattestor/nodeattestor.proto,pkg/server/plugin/nodeattestor,NodeAttestor \
 	proto/spire/server/datastore/datastore.proto,pkg/server/plugin/datastore,DataStore \
