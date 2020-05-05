@@ -3,32 +3,33 @@ package spire.types;
 option go_package = "github.com/spiffe/spire/proto/spire-next/types";
 
 import "spire-next/types/selector.proto";
+import "spire-next/types/spiffeid.proto";
 
 message Entry {
     // Globally unique ID for the entry.
-    string id = 6;
+    string id = 1;
 
     // The SPIFFE ID of the identity described by this entry.
-    string spiffe_id = 3;
+    spire.types.SPIFFEID spiffe_id = 2;
 
     // Who the entry is delegated to. If the entry describes a node, this is
     // set to the SPIFFE ID of the SPIRE server of the trust domain (e.g.
     // spiffe://example.org/spire/server). Otherwise, it will be set to a node
     // SPIFFE ID.
-    string parent = 2;
+    spire.types.SPIFFEID parent_id = 3;
 
     // The selectors which identify which entities match this entry. If this is
     // an entry for a node, these selectors represent selectors produced by
     // node attestation. Otherwise, these selectors represent those produced by
     // workload attestation.
-    repeated spire.types.Selector selectors = 1;
+    repeated spire.types.Selector selectors = 4;
 
     // The time to live for identities issued for this entry.
-    int32 ttl = 4;
+    int32 ttl = 5;
 
     // A list of trust domains the identity described by this entry federates
     // with.
-    repeated string federates_with = 5;
+    repeated string federates_with = 6;
 
     // Whether or not the identity described by this entry is an administrative
     // workload. Administrative workloads are granted additional access to
@@ -50,33 +51,24 @@ message Entry {
 
 // Field mask for Entry fields
 message EntryMask {
-    // id field mask.
-    bool id = 6;
-
-    // spiffe_id field mask.
-    bool spiffe_id = 3;
-
-    // delegated_to field mask.
-    bool delegated_to = 2;
-
-    // selectors field mask.
-    bool selectors = 1;
-
-    // ttl field mask.
-    bool ttl = 4;
-
-    // federates_with field mask.
-    bool federates_with = 5;
-
-    // admin field mask.
+    // id field mask
+    bool id = 1;
+    // spiffe_id field mask
+    bool spiffe_id = 2;
+    // parent_id field mask
+    bool parent_id = 3;
+    // selectors field mask
+    bool selectors = 4;
+    // ttl field mask
+    bool ttl = 5;
+    // federates_with field mask
+    bool federates_with = 6;
+    // admin field mask
     bool admin = 7;
-
-    // downstream field mask.
+    // downstream field mask
     bool downstream = 8;
-
-    // expires_at field mask.
+    // expires_at field mask
     bool expires_at = 9;
-
-    // dns_names field mask.
+    // dns_names field mask
     bool dns_names = 10;
 }

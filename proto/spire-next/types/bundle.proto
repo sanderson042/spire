@@ -3,10 +3,12 @@ syntax = "proto3";
 package spire.types;
 option go_package = "github.com/spiffe/spire/proto/spire-next/types";
 
+import "spire-next/types/spiffeid.proto";
+
 message Bundle {
     // The SPIFFE ID of the trust domain the bundle belongs to, e.g.
     // spiffe://example.org.
-    string trust_domain_id = 1;
+    spire.types.SPIFFEID trust_domain_id = 1;
 
     // X.509 authorities for authenticating X509-SVIDs.
     repeated X509Certificate x509_authorities = 2;

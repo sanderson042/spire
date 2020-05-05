@@ -2,6 +2,8 @@ syntax = "proto3";
 package spire.types;
 option go_package = "github.com/spiffe/spire/proto/spire-next/types";
 
+import "spire-next/types/spiffeid.proto";
+
 // X.509 SPIFFE Verifiable Identity Document. It contains the raw X.509
 // certificate data as well as a few denormalized fields for convenience.
 message X509SVID {
@@ -9,12 +11,9 @@ message X509SVID {
     // the X.509 authorities of the trust domain (ASN.1 DER encoded).
     repeated bytes cert_chain = 1;
 
-    // SPIFFE ID in the SVID.
-    string spiffe_id = 2;
-
-    // Trust domain of the SVID.
-    string trust_domain = 3;
+    // SPIFFE ID of the SVID.
+    spire.types.SPIFFEID id = 2;
 
     // Expiration timestamp (seconds since Unix epoch).
-    int64 expires_at = 4;
+    int64 expires_at = 3;
 }

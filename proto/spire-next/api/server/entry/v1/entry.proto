@@ -5,6 +5,7 @@ option go_package = "github.com/spiffe/spire/proto/spire-next/api/server/entry/v
 import "google/protobuf/empty.proto";
 import "spire-next/types/entry.proto";
 import "spire-next/types/selector.proto";
+import "spire-next/types/spiffeid.proto";
 import "spire-next/types/status.proto";
 
 // Manages registration entries stored by the SPIRE Server.
@@ -66,9 +67,9 @@ service Entry {
 
 message ListEntriesRequest {
     message Filter {
-        string by_parent_id = 1;
-        spire.types.SelectorMatch by_selectors = 2;
-        string by_spiffe_id = 3;
+        spire.types.SPIFFEID by_spiffe_id = 1;
+        spire.types.SPIFFEID by_parent_id = 2;
+        spire.types.SelectorMatch by_selectors = 3;
     }
 
     // Filters the entries returned in the response.

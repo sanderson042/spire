@@ -3,10 +3,11 @@ package spire.types;
 option go_package = "github.com/spiffe/spire/proto/spire-next/types";
 
 import "spire-next/types/selector.proto";
+import "spire-next/types/spiffeid.proto";
 
 message Agent {
     // Output only. SPIFFE ID of the agent.
-    string id = 1;
+    spire.types.SPIFFEID id = 1;
 
     // Output only. The method by which the agent attested.
     string attestation_type = 2;

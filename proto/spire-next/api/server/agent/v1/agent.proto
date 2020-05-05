@@ -7,6 +7,7 @@ import "spire-next/types/agent.proto";
 import "spire-next/types/attestation.proto";
 import "spire-next/types/jointoken.proto";
 import "spire-next/types/selector.proto";
+import "spire-next/types/spiffeid.proto";
 import "spire-next/types/x509svid.proto";
 
 service Agent {
@@ -88,7 +89,7 @@ message ListAgentsResponse {
 
 message GetAgentRequest {
     // Required. The SPIFFE ID of the agent.
-    string id = 1;
+    spire.types.SPIFFEID id = 1;
 
     // An output mask indicating which agent fields are set in the response.
     spire.types.AgentMask output_mask = 2;
@@ -96,12 +97,12 @@ message GetAgentRequest {
 
 message DeleteAgentRequest {
     // Required. The SPIFFE ID of the agent.
-    string id = 1;
+    spire.types.SPIFFEID id = 1;
 }
 
 message BanAgentRequest {
     // Required. The SPIFFE ID of the agent.
-    string id = 1;
+    spire.types.SPIFFEID id = 1;
 }
 
 message CreateJoinTokenRequest {
@@ -115,7 +116,7 @@ message CreateJoinTokenRequest {
     // An optional SPIFFE ID to assign to the agent beyond that given by
     // join token attestation. If set, this results in an entry being created
     // that maps the attestation assigned agent ID to this ID.
-    string agent_id = 2;
+    spire.types.SPIFFEID agent_id = 2;
 }
 
 message AttestAgentRequest {
