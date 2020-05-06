@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	types "github.com/spiffe/spire/proto/spire-next/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -26,119 +25,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type ListBundlesRequest struct {
-	// An output mask indicating which bundle fields are set in the response.
-	OutputMask *types.BundleMask `protobuf:"bytes,1,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
-	// The maximum number of items to return.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	// The next_page_token value returned from a previous List request, if any.
-	PageToken            string   `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ListBundlesRequest) Reset()         { *m = ListBundlesRequest{} }
-func (m *ListBundlesRequest) String() string { return proto.CompactTextString(m) }
-func (*ListBundlesRequest) ProtoMessage()    {}
-func (*ListBundlesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{0}
-}
-
-func (m *ListBundlesRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListBundlesRequest.Unmarshal(m, b)
-}
-func (m *ListBundlesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListBundlesRequest.Marshal(b, m, deterministic)
-}
-func (m *ListBundlesRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListBundlesRequest.Merge(m, src)
-}
-func (m *ListBundlesRequest) XXX_Size() int {
-	return xxx_messageInfo_ListBundlesRequest.Size(m)
-}
-func (m *ListBundlesRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListBundlesRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ListBundlesRequest proto.InternalMessageInfo
-
-func (m *ListBundlesRequest) GetOutputMask() *types.BundleMask {
-	if m != nil {
-		return m.OutputMask
-	}
-	return nil
-}
-
-func (m *ListBundlesRequest) GetPageSize() int32 {
-	if m != nil {
-		return m.PageSize
-	}
-	return 0
-}
-
-func (m *ListBundlesRequest) GetPageToken() string {
-	if m != nil {
-		return m.PageToken
-	}
-	return ""
-}
-
-type ListBundlesResponse struct {
-	// The bundles.
-	Bundles []*types.Bundle `protobuf:"bytes,1,rep,name=bundles,proto3" json:"bundles,omitempty"`
-	// The page token for the next request. Empty if there are no more results.
-	NextPageToken        string   `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ListBundlesResponse) Reset()         { *m = ListBundlesResponse{} }
-func (m *ListBundlesResponse) String() string { return proto.CompactTextString(m) }
-func (*ListBundlesResponse) ProtoMessage()    {}
-func (*ListBundlesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{1}
-}
-
-func (m *ListBundlesResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListBundlesResponse.Unmarshal(m, b)
-}
-func (m *ListBundlesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListBundlesResponse.Marshal(b, m, deterministic)
-}
-func (m *ListBundlesResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListBundlesResponse.Merge(m, src)
-}
-func (m *ListBundlesResponse) XXX_Size() int {
-	return xxx_messageInfo_ListBundlesResponse.Size(m)
-}
-func (m *ListBundlesResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListBundlesResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ListBundlesResponse proto.InternalMessageInfo
-
-func (m *ListBundlesResponse) GetBundles() []*types.Bundle {
-	if m != nil {
-		return m.Bundles
-	}
-	return nil
-}
-
-func (m *ListBundlesResponse) GetNextPageToken() string {
-	if m != nil {
-		return m.NextPageToken
-	}
-	return ""
-}
-
 type GetBundleRequest struct {
-	// The trust domain of the bundle, e.g. example.org. If unset, the bundle
-	// for the trust domain that the server belongs to is returned.
-	TrustDomain string `protobuf:"bytes,1,opt,name=trust_domain,json=trustDomain,proto3" json:"trust_domain,omitempty"`
 	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	OutputMask           *types.BundleMask `protobuf:"bytes,1,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
 	XXX_unrecognized     []byte            `json:"-"`
 	XXX_sizecache        int32             `json:"-"`
@@ -148,7 +37,7 @@ func (m *GetBundleRequest) Reset()         { *m = GetBundleRequest{} }
 func (m *GetBundleRequest) String() string { return proto.CompactTextString(m) }
 func (*GetBundleRequest) ProtoMessage()    {}
 func (*GetBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{2}
+	return fileDescriptor_cf01a1817f9fc5c2, []int{0}
 }
 
 func (m *GetBundleRequest) XXX_Unmarshal(b []byte) error {
@@ -169,13 +58,6 @@ func (m *GetBundleRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetBundleRequest proto.InternalMessageInfo
 
-func (m *GetBundleRequest) GetTrustDomain() string {
-	if m != nil {
-		return m.TrustDomain
-	}
-	return ""
-}
-
 func (m *GetBundleRequest) GetOutputMask() *types.BundleMask {
 	if m != nil {
 		return m.OutputMask
@@ -183,581 +65,14 @@ func (m *GetBundleRequest) GetOutputMask() *types.BundleMask {
 	return nil
 }
 
-type CreateBundleRequest struct {
-	// Required. The bundle to create.
-	Bundle               *types.Bundle `protobuf:"bytes,1,opt,name=bundle,proto3" json:"bundle,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
-}
-
-func (m *CreateBundleRequest) Reset()         { *m = CreateBundleRequest{} }
-func (m *CreateBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*CreateBundleRequest) ProtoMessage()    {}
-func (*CreateBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{3}
-}
-
-func (m *CreateBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateBundleRequest.Unmarshal(m, b)
-}
-func (m *CreateBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateBundleRequest.Marshal(b, m, deterministic)
-}
-func (m *CreateBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateBundleRequest.Merge(m, src)
-}
-func (m *CreateBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_CreateBundleRequest.Size(m)
-}
-func (m *CreateBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateBundleRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CreateBundleRequest proto.InternalMessageInfo
-
-func (m *CreateBundleRequest) GetBundle() *types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-type BatchCreateBundleRequest struct {
-	// The bundles to be created.
-	Bundle []*types.Bundle `protobuf:"bytes,1,rep,name=bundle,proto3" json:"bundle,omitempty"`
-	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
-	XXX_unrecognized     []byte            `json:"-"`
-	XXX_sizecache        int32             `json:"-"`
-}
-
-func (m *BatchCreateBundleRequest) Reset()         { *m = BatchCreateBundleRequest{} }
-func (m *BatchCreateBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*BatchCreateBundleRequest) ProtoMessage()    {}
-func (*BatchCreateBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{4}
-}
-
-func (m *BatchCreateBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchCreateBundleRequest.Unmarshal(m, b)
-}
-func (m *BatchCreateBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchCreateBundleRequest.Marshal(b, m, deterministic)
-}
-func (m *BatchCreateBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchCreateBundleRequest.Merge(m, src)
-}
-func (m *BatchCreateBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_BatchCreateBundleRequest.Size(m)
-}
-func (m *BatchCreateBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchCreateBundleRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchCreateBundleRequest proto.InternalMessageInfo
-
-func (m *BatchCreateBundleRequest) GetBundle() []*types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-func (m *BatchCreateBundleRequest) GetOutputMask() *types.BundleMask {
-	if m != nil {
-		return m.OutputMask
-	}
-	return nil
-}
-
-type BatchCreateBundleResponse struct {
-	// Result for each bundle in the request.
-	Results              []*BatchCreateBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                            `json:"-"`
-	XXX_unrecognized     []byte                              `json:"-"`
-	XXX_sizecache        int32                               `json:"-"`
-}
-
-func (m *BatchCreateBundleResponse) Reset()         { *m = BatchCreateBundleResponse{} }
-func (m *BatchCreateBundleResponse) String() string { return proto.CompactTextString(m) }
-func (*BatchCreateBundleResponse) ProtoMessage()    {}
-func (*BatchCreateBundleResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{5}
-}
-
-func (m *BatchCreateBundleResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchCreateBundleResponse.Unmarshal(m, b)
-}
-func (m *BatchCreateBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchCreateBundleResponse.Marshal(b, m, deterministic)
-}
-func (m *BatchCreateBundleResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchCreateBundleResponse.Merge(m, src)
-}
-func (m *BatchCreateBundleResponse) XXX_Size() int {
-	return xxx_messageInfo_BatchCreateBundleResponse.Size(m)
-}
-func (m *BatchCreateBundleResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchCreateBundleResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchCreateBundleResponse proto.InternalMessageInfo
-
-func (m *BatchCreateBundleResponse) GetResults() []*BatchCreateBundleResponse_Result {
-	if m != nil {
-		return m.Results
-	}
-	return nil
-}
-
-type BatchCreateBundleResponse_Result struct {
-	// The status of creating the bundle.
-	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	// The bundle that was created. This will be set if the status is OK.
-	Bundle               *types.Bundle `protobuf:"bytes,2,opt,name=bundle,proto3" json:"bundle,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
-}
-
-func (m *BatchCreateBundleResponse_Result) Reset()         { *m = BatchCreateBundleResponse_Result{} }
-func (m *BatchCreateBundleResponse_Result) String() string { return proto.CompactTextString(m) }
-func (*BatchCreateBundleResponse_Result) ProtoMessage()    {}
-func (*BatchCreateBundleResponse_Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{5, 0}
-}
-
-func (m *BatchCreateBundleResponse_Result) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchCreateBundleResponse_Result.Unmarshal(m, b)
-}
-func (m *BatchCreateBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchCreateBundleResponse_Result.Marshal(b, m, deterministic)
-}
-func (m *BatchCreateBundleResponse_Result) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchCreateBundleResponse_Result.Merge(m, src)
-}
-func (m *BatchCreateBundleResponse_Result) XXX_Size() int {
-	return xxx_messageInfo_BatchCreateBundleResponse_Result.Size(m)
-}
-func (m *BatchCreateBundleResponse_Result) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchCreateBundleResponse_Result.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchCreateBundleResponse_Result proto.InternalMessageInfo
-
-func (m *BatchCreateBundleResponse_Result) GetStatus() *types.Status {
-	if m != nil {
-		return m.Status
-	}
-	return nil
-}
-
-func (m *BatchCreateBundleResponse_Result) GetBundle() *types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-type UpdateBundleRequest struct {
-	// Required. The bundle to update.
-	Bundle *types.Bundle `protobuf:"bytes,1,opt,name=bundle,proto3" json:"bundle,omitempty"`
-	// An input mask indicating which bundle fields should be updated.
-	InputMask *types.BundleMask `protobuf:"bytes,2,opt,name=input_mask,json=inputMask,proto3" json:"input_mask,omitempty"`
-	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,3,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
-	XXX_unrecognized     []byte            `json:"-"`
-	XXX_sizecache        int32             `json:"-"`
-}
-
-func (m *UpdateBundleRequest) Reset()         { *m = UpdateBundleRequest{} }
-func (m *UpdateBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*UpdateBundleRequest) ProtoMessage()    {}
-func (*UpdateBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{6}
-}
-
-func (m *UpdateBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UpdateBundleRequest.Unmarshal(m, b)
-}
-func (m *UpdateBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UpdateBundleRequest.Marshal(b, m, deterministic)
-}
-func (m *UpdateBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateBundleRequest.Merge(m, src)
-}
-func (m *UpdateBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_UpdateBundleRequest.Size(m)
-}
-func (m *UpdateBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateBundleRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UpdateBundleRequest proto.InternalMessageInfo
-
-func (m *UpdateBundleRequest) GetBundle() *types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-func (m *UpdateBundleRequest) GetInputMask() *types.BundleMask {
-	if m != nil {
-		return m.InputMask
-	}
-	return nil
-}
-
-func (m *UpdateBundleRequest) GetOutputMask() *types.BundleMask {
-	if m != nil {
-		return m.OutputMask
-	}
-	return nil
-}
-
-type BatchUpdateBundleRequest struct {
-	// The bundles to be updated.
-	Bundle []*types.Bundle `protobuf:"bytes,1,rep,name=bundle,proto3" json:"bundle,omitempty"`
-	// An input mask indicating which bundle fields should be updated.
-	InputMask *types.BundleMask `protobuf:"bytes,2,opt,name=input_mask,json=inputMask,proto3" json:"input_mask,omitempty"`
-	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,3,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
-	XXX_unrecognized     []byte            `json:"-"`
-	XXX_sizecache        int32             `json:"-"`
-}
-
-func (m *BatchUpdateBundleRequest) Reset()         { *m = BatchUpdateBundleRequest{} }
-func (m *BatchUpdateBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*BatchUpdateBundleRequest) ProtoMessage()    {}
-func (*BatchUpdateBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{7}
-}
-
-func (m *BatchUpdateBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchUpdateBundleRequest.Unmarshal(m, b)
-}
-func (m *BatchUpdateBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchUpdateBundleRequest.Marshal(b, m, deterministic)
-}
-func (m *BatchUpdateBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchUpdateBundleRequest.Merge(m, src)
-}
-func (m *BatchUpdateBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_BatchUpdateBundleRequest.Size(m)
-}
-func (m *BatchUpdateBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchUpdateBundleRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchUpdateBundleRequest proto.InternalMessageInfo
-
-func (m *BatchUpdateBundleRequest) GetBundle() []*types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-func (m *BatchUpdateBundleRequest) GetInputMask() *types.BundleMask {
-	if m != nil {
-		return m.InputMask
-	}
-	return nil
-}
-
-func (m *BatchUpdateBundleRequest) GetOutputMask() *types.BundleMask {
-	if m != nil {
-		return m.OutputMask
-	}
-	return nil
-}
-
-type BatchUpdateBundleResponse struct {
-	// Result for each bundle in the request.
-	Results              []*BatchUpdateBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                            `json:"-"`
-	XXX_unrecognized     []byte                              `json:"-"`
-	XXX_sizecache        int32                               `json:"-"`
-}
-
-func (m *BatchUpdateBundleResponse) Reset()         { *m = BatchUpdateBundleResponse{} }
-func (m *BatchUpdateBundleResponse) String() string { return proto.CompactTextString(m) }
-func (*BatchUpdateBundleResponse) ProtoMessage()    {}
-func (*BatchUpdateBundleResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{8}
-}
-
-func (m *BatchUpdateBundleResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchUpdateBundleResponse.Unmarshal(m, b)
-}
-func (m *BatchUpdateBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchUpdateBundleResponse.Marshal(b, m, deterministic)
-}
-func (m *BatchUpdateBundleResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchUpdateBundleResponse.Merge(m, src)
-}
-func (m *BatchUpdateBundleResponse) XXX_Size() int {
-	return xxx_messageInfo_BatchUpdateBundleResponse.Size(m)
-}
-func (m *BatchUpdateBundleResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchUpdateBundleResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchUpdateBundleResponse proto.InternalMessageInfo
-
-func (m *BatchUpdateBundleResponse) GetResults() []*BatchUpdateBundleResponse_Result {
-	if m != nil {
-		return m.Results
-	}
-	return nil
-}
-
-type BatchUpdateBundleResponse_Result struct {
-	// The status of updating the bundle.
-	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	// The bundle that was updated. This will be set if the status is OK.
-	Bundle               *types.Bundle `protobuf:"bytes,2,opt,name=bundle,proto3" json:"bundle,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
-}
-
-func (m *BatchUpdateBundleResponse_Result) Reset()         { *m = BatchUpdateBundleResponse_Result{} }
-func (m *BatchUpdateBundleResponse_Result) String() string { return proto.CompactTextString(m) }
-func (*BatchUpdateBundleResponse_Result) ProtoMessage()    {}
-func (*BatchUpdateBundleResponse_Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{8, 0}
-}
-
-func (m *BatchUpdateBundleResponse_Result) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchUpdateBundleResponse_Result.Unmarshal(m, b)
-}
-func (m *BatchUpdateBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchUpdateBundleResponse_Result.Marshal(b, m, deterministic)
-}
-func (m *BatchUpdateBundleResponse_Result) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchUpdateBundleResponse_Result.Merge(m, src)
-}
-func (m *BatchUpdateBundleResponse_Result) XXX_Size() int {
-	return xxx_messageInfo_BatchUpdateBundleResponse_Result.Size(m)
-}
-func (m *BatchUpdateBundleResponse_Result) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchUpdateBundleResponse_Result.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchUpdateBundleResponse_Result proto.InternalMessageInfo
-
-func (m *BatchUpdateBundleResponse_Result) GetStatus() *types.Status {
-	if m != nil {
-		return m.Status
-	}
-	return nil
-}
-
-func (m *BatchUpdateBundleResponse_Result) GetBundle() *types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-type SetBundleRequest struct {
-	// Required. The bundle to create or update.
-	Bundle *types.Bundle `protobuf:"bytes,1,opt,name=bundle,proto3" json:"bundle,omitempty"`
-	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
-	XXX_unrecognized     []byte            `json:"-"`
-	XXX_sizecache        int32             `json:"-"`
-}
-
-func (m *SetBundleRequest) Reset()         { *m = SetBundleRequest{} }
-func (m *SetBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*SetBundleRequest) ProtoMessage()    {}
-func (*SetBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{9}
-}
-
-func (m *SetBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SetBundleRequest.Unmarshal(m, b)
-}
-func (m *SetBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SetBundleRequest.Marshal(b, m, deterministic)
-}
-func (m *SetBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SetBundleRequest.Merge(m, src)
-}
-func (m *SetBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_SetBundleRequest.Size(m)
-}
-func (m *SetBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_SetBundleRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SetBundleRequest proto.InternalMessageInfo
-
-func (m *SetBundleRequest) GetBundle() *types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-func (m *SetBundleRequest) GetOutputMask() *types.BundleMask {
-	if m != nil {
-		return m.OutputMask
-	}
-	return nil
-}
-
-type BatchSetBundleRequest struct {
-	// The bundles to be upserted.
-	Bundle []*types.Bundle `protobuf:"bytes,1,rep,name=bundle,proto3" json:"bundle,omitempty"`
-	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
-	XXX_unrecognized     []byte            `json:"-"`
-	XXX_sizecache        int32             `json:"-"`
-}
-
-func (m *BatchSetBundleRequest) Reset()         { *m = BatchSetBundleRequest{} }
-func (m *BatchSetBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*BatchSetBundleRequest) ProtoMessage()    {}
-func (*BatchSetBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{10}
-}
-
-func (m *BatchSetBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchSetBundleRequest.Unmarshal(m, b)
-}
-func (m *BatchSetBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchSetBundleRequest.Marshal(b, m, deterministic)
-}
-func (m *BatchSetBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchSetBundleRequest.Merge(m, src)
-}
-func (m *BatchSetBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_BatchSetBundleRequest.Size(m)
-}
-func (m *BatchSetBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchSetBundleRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchSetBundleRequest proto.InternalMessageInfo
-
-func (m *BatchSetBundleRequest) GetBundle() []*types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
-func (m *BatchSetBundleRequest) GetOutputMask() *types.BundleMask {
-	if m != nil {
-		return m.OutputMask
-	}
-	return nil
-}
-
-type BatchSetBundleResponse struct {
-	// Result for each bundle in the request.
-	Results              []*BatchSetBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                         `json:"-"`
-	XXX_unrecognized     []byte                           `json:"-"`
-	XXX_sizecache        int32                            `json:"-"`
-}
-
-func (m *BatchSetBundleResponse) Reset()         { *m = BatchSetBundleResponse{} }
-func (m *BatchSetBundleResponse) String() string { return proto.CompactTextString(m) }
-func (*BatchSetBundleResponse) ProtoMessage()    {}
-func (*BatchSetBundleResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{11}
-}
-
-func (m *BatchSetBundleResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchSetBundleResponse.Unmarshal(m, b)
-}
-func (m *BatchSetBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchSetBundleResponse.Marshal(b, m, deterministic)
-}
-func (m *BatchSetBundleResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchSetBundleResponse.Merge(m, src)
-}
-func (m *BatchSetBundleResponse) XXX_Size() int {
-	return xxx_messageInfo_BatchSetBundleResponse.Size(m)
-}
-func (m *BatchSetBundleResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchSetBundleResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchSetBundleResponse proto.InternalMessageInfo
-
-func (m *BatchSetBundleResponse) GetResults() []*BatchSetBundleResponse_Result {
-	if m != nil {
-		return m.Results
-	}
-	return nil
-}
-
-type BatchSetBundleResponse_Result struct {
-	// The status of upserting the bundle.
-	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	// The bundle that was upserted. This will be set if the status is OK.
-	Bundle               *types.Bundle `protobuf:"bytes,2,opt,name=bundle,proto3" json:"bundle,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
-}
-
-func (m *BatchSetBundleResponse_Result) Reset()         { *m = BatchSetBundleResponse_Result{} }
-func (m *BatchSetBundleResponse_Result) String() string { return proto.CompactTextString(m) }
-func (*BatchSetBundleResponse_Result) ProtoMessage()    {}
-func (*BatchSetBundleResponse_Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{11, 0}
-}
-
-func (m *BatchSetBundleResponse_Result) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchSetBundleResponse_Result.Unmarshal(m, b)
-}
-func (m *BatchSetBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchSetBundleResponse_Result.Marshal(b, m, deterministic)
-}
-func (m *BatchSetBundleResponse_Result) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchSetBundleResponse_Result.Merge(m, src)
-}
-func (m *BatchSetBundleResponse_Result) XXX_Size() int {
-	return xxx_messageInfo_BatchSetBundleResponse_Result.Size(m)
-}
-func (m *BatchSetBundleResponse_Result) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchSetBundleResponse_Result.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BatchSetBundleResponse_Result proto.InternalMessageInfo
-
-func (m *BatchSetBundleResponse_Result) GetStatus() *types.Status {
-	if m != nil {
-		return m.Status
-	}
-	return nil
-}
-
-func (m *BatchSetBundleResponse_Result) GetBundle() *types.Bundle {
-	if m != nil {
-		return m.Bundle
-	}
-	return nil
-}
-
 type AppendBundleRequest struct {
-	// Required. The bundle to append.
+	// Required. The bundle to append. Must be the bundle for the trust domain
+	// of the server.
 	Bundle *types.Bundle `protobuf:"bytes,1,opt,name=bundle,proto3" json:"bundle,omitempty"`
+	// An input mask indicating which bundle fields should be appended.
+	InputMask *types.BundleMask `protobuf:"bytes,2,opt,name=input_mask,json=inputMask,proto3" json:"input_mask,omitempty"`
 	// An output mask indicating which bundle fields are set in the response.
-	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	OutputMask           *types.BundleMask `protobuf:"bytes,3,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
 	XXX_unrecognized     []byte            `json:"-"`
 	XXX_sizecache        int32             `json:"-"`
@@ -767,7 +82,7 @@ func (m *AppendBundleRequest) Reset()         { *m = AppendBundleRequest{} }
 func (m *AppendBundleRequest) String() string { return proto.CompactTextString(m) }
 func (*AppendBundleRequest) ProtoMessage()    {}
 func (*AppendBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{12}
+	return fileDescriptor_cf01a1817f9fc5c2, []int{1}
 }
 
 func (m *AppendBundleRequest) XXX_Unmarshal(b []byte) error {
@@ -795,6 +110,13 @@ func (m *AppendBundleRequest) GetBundle() *types.Bundle {
 	return nil
 }
 
+func (m *AppendBundleRequest) GetInputMask() *types.BundleMask {
+	if m != nil {
+		return m.InputMask
+	}
+	return nil
+}
+
 func (m *AppendBundleRequest) GetOutputMask() *types.BundleMask {
 	if m != nil {
 		return m.OutputMask
@@ -802,48 +124,592 @@ func (m *AppendBundleRequest) GetOutputMask() *types.BundleMask {
 	return nil
 }
 
-type DeleteBundleRequest struct {
-	// Required. The trust domain of the bundle, e.g. example.org. It cannot
-	// be the bundle for the trust domain the server belongs to.
-	TrustDomain          string   `protobuf:"bytes,1,opt,name=trust_domain,json=trustDomain,proto3" json:"trust_domain,omitempty"`
+type ListFederatedBundlesRequest struct {
+	// An output mask indicating which bundle fields are set in the response.
+	OutputMask *types.BundleMask `protobuf:"bytes,1,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	// The maximum number of items to return.
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	// The next_page_token value returned from a previous List request, if any.
+	PageToken            string   `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DeleteBundleRequest) Reset()         { *m = DeleteBundleRequest{} }
-func (m *DeleteBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*DeleteBundleRequest) ProtoMessage()    {}
-func (*DeleteBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{13}
+func (m *ListFederatedBundlesRequest) Reset()         { *m = ListFederatedBundlesRequest{} }
+func (m *ListFederatedBundlesRequest) String() string { return proto.CompactTextString(m) }
+func (*ListFederatedBundlesRequest) ProtoMessage()    {}
+func (*ListFederatedBundlesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{2}
 }
 
-func (m *DeleteBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DeleteBundleRequest.Unmarshal(m, b)
+func (m *ListFederatedBundlesRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListFederatedBundlesRequest.Unmarshal(m, b)
 }
-func (m *DeleteBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DeleteBundleRequest.Marshal(b, m, deterministic)
+func (m *ListFederatedBundlesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListFederatedBundlesRequest.Marshal(b, m, deterministic)
 }
-func (m *DeleteBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteBundleRequest.Merge(m, src)
+func (m *ListFederatedBundlesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListFederatedBundlesRequest.Merge(m, src)
 }
-func (m *DeleteBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_DeleteBundleRequest.Size(m)
+func (m *ListFederatedBundlesRequest) XXX_Size() int {
+	return xxx_messageInfo_ListFederatedBundlesRequest.Size(m)
 }
-func (m *DeleteBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteBundleRequest.DiscardUnknown(m)
+func (m *ListFederatedBundlesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListFederatedBundlesRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DeleteBundleRequest proto.InternalMessageInfo
+var xxx_messageInfo_ListFederatedBundlesRequest proto.InternalMessageInfo
 
-func (m *DeleteBundleRequest) GetTrustDomain() string {
+func (m *ListFederatedBundlesRequest) GetOutputMask() *types.BundleMask {
+	if m != nil {
+		return m.OutputMask
+	}
+	return nil
+}
+
+func (m *ListFederatedBundlesRequest) GetPageSize() int32 {
+	if m != nil {
+		return m.PageSize
+	}
+	return 0
+}
+
+func (m *ListFederatedBundlesRequest) GetPageToken() string {
+	if m != nil {
+		return m.PageToken
+	}
+	return ""
+}
+
+type ListFederatedBundlesResponse struct {
+	// The bundles.
+	Bundles []*types.Bundle `protobuf:"bytes,1,rep,name=bundles,proto3" json:"bundles,omitempty"`
+	// The page token for the next request. Empty if there are no more results.
+	NextPageToken        string   `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListFederatedBundlesResponse) Reset()         { *m = ListFederatedBundlesResponse{} }
+func (m *ListFederatedBundlesResponse) String() string { return proto.CompactTextString(m) }
+func (*ListFederatedBundlesResponse) ProtoMessage()    {}
+func (*ListFederatedBundlesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{3}
+}
+
+func (m *ListFederatedBundlesResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListFederatedBundlesResponse.Unmarshal(m, b)
+}
+func (m *ListFederatedBundlesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListFederatedBundlesResponse.Marshal(b, m, deterministic)
+}
+func (m *ListFederatedBundlesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListFederatedBundlesResponse.Merge(m, src)
+}
+func (m *ListFederatedBundlesResponse) XXX_Size() int {
+	return xxx_messageInfo_ListFederatedBundlesResponse.Size(m)
+}
+func (m *ListFederatedBundlesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListFederatedBundlesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListFederatedBundlesResponse proto.InternalMessageInfo
+
+func (m *ListFederatedBundlesResponse) GetBundles() []*types.Bundle {
+	if m != nil {
+		return m.Bundles
+	}
+	return nil
+}
+
+func (m *ListFederatedBundlesResponse) GetNextPageToken() string {
+	if m != nil {
+		return m.NextPageToken
+	}
+	return ""
+}
+
+type GetFederatedBundleRequest struct {
+	// Required. The trust domain of the bundle, e.g. example.org. If unset, the bundle
+	TrustDomain string `protobuf:"bytes,1,opt,name=trust_domain,json=trustDomain,proto3" json:"trust_domain,omitempty"`
+	// An output mask indicating which bundle fields are set in the response.
+	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *GetFederatedBundleRequest) Reset()         { *m = GetFederatedBundleRequest{} }
+func (m *GetFederatedBundleRequest) String() string { return proto.CompactTextString(m) }
+func (*GetFederatedBundleRequest) ProtoMessage()    {}
+func (*GetFederatedBundleRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{4}
+}
+
+func (m *GetFederatedBundleRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetFederatedBundleRequest.Unmarshal(m, b)
+}
+func (m *GetFederatedBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetFederatedBundleRequest.Marshal(b, m, deterministic)
+}
+func (m *GetFederatedBundleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetFederatedBundleRequest.Merge(m, src)
+}
+func (m *GetFederatedBundleRequest) XXX_Size() int {
+	return xxx_messageInfo_GetFederatedBundleRequest.Size(m)
+}
+func (m *GetFederatedBundleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetFederatedBundleRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetFederatedBundleRequest proto.InternalMessageInfo
+
+func (m *GetFederatedBundleRequest) GetTrustDomain() string {
 	if m != nil {
 		return m.TrustDomain
 	}
 	return ""
 }
 
-type BatchDeleteBundleRequest struct {
+func (m *GetFederatedBundleRequest) GetOutputMask() *types.BundleMask {
+	if m != nil {
+		return m.OutputMask
+	}
+	return nil
+}
+
+type BatchCreateFederatedBundleRequest struct {
+	// The bundles to be created.
+	Bundle []*types.Bundle `protobuf:"bytes,1,rep,name=bundle,proto3" json:"bundle,omitempty"`
+	// An output mask indicating which bundle fields are set in the response.
+	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *BatchCreateFederatedBundleRequest) Reset()         { *m = BatchCreateFederatedBundleRequest{} }
+func (m *BatchCreateFederatedBundleRequest) String() string { return proto.CompactTextString(m) }
+func (*BatchCreateFederatedBundleRequest) ProtoMessage()    {}
+func (*BatchCreateFederatedBundleRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{5}
+}
+
+func (m *BatchCreateFederatedBundleRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchCreateFederatedBundleRequest.Unmarshal(m, b)
+}
+func (m *BatchCreateFederatedBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchCreateFederatedBundleRequest.Marshal(b, m, deterministic)
+}
+func (m *BatchCreateFederatedBundleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchCreateFederatedBundleRequest.Merge(m, src)
+}
+func (m *BatchCreateFederatedBundleRequest) XXX_Size() int {
+	return xxx_messageInfo_BatchCreateFederatedBundleRequest.Size(m)
+}
+func (m *BatchCreateFederatedBundleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchCreateFederatedBundleRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchCreateFederatedBundleRequest proto.InternalMessageInfo
+
+func (m *BatchCreateFederatedBundleRequest) GetBundle() []*types.Bundle {
+	if m != nil {
+		return m.Bundle
+	}
+	return nil
+}
+
+func (m *BatchCreateFederatedBundleRequest) GetOutputMask() *types.BundleMask {
+	if m != nil {
+		return m.OutputMask
+	}
+	return nil
+}
+
+type BatchCreateFederatedBundleResponse struct {
+	// Result for each bundle in the request.
+	Results              []*BatchCreateFederatedBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                     `json:"-"`
+	XXX_unrecognized     []byte                                       `json:"-"`
+	XXX_sizecache        int32                                        `json:"-"`
+}
+
+func (m *BatchCreateFederatedBundleResponse) Reset()         { *m = BatchCreateFederatedBundleResponse{} }
+func (m *BatchCreateFederatedBundleResponse) String() string { return proto.CompactTextString(m) }
+func (*BatchCreateFederatedBundleResponse) ProtoMessage()    {}
+func (*BatchCreateFederatedBundleResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{6}
+}
+
+func (m *BatchCreateFederatedBundleResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchCreateFederatedBundleResponse.Unmarshal(m, b)
+}
+func (m *BatchCreateFederatedBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchCreateFederatedBundleResponse.Marshal(b, m, deterministic)
+}
+func (m *BatchCreateFederatedBundleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchCreateFederatedBundleResponse.Merge(m, src)
+}
+func (m *BatchCreateFederatedBundleResponse) XXX_Size() int {
+	return xxx_messageInfo_BatchCreateFederatedBundleResponse.Size(m)
+}
+func (m *BatchCreateFederatedBundleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchCreateFederatedBundleResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchCreateFederatedBundleResponse proto.InternalMessageInfo
+
+func (m *BatchCreateFederatedBundleResponse) GetResults() []*BatchCreateFederatedBundleResponse_Result {
+	if m != nil {
+		return m.Results
+	}
+	return nil
+}
+
+type BatchCreateFederatedBundleResponse_Result struct {
+	// The status of creating the bundle.
+	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// The bundle that was created. This will be set if the status is OK.
+	Bundle               *types.Bundle `protobuf:"bytes,2,opt,name=bundle,proto3" json:"bundle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *BatchCreateFederatedBundleResponse_Result) Reset() {
+	*m = BatchCreateFederatedBundleResponse_Result{}
+}
+func (m *BatchCreateFederatedBundleResponse_Result) String() string { return proto.CompactTextString(m) }
+func (*BatchCreateFederatedBundleResponse_Result) ProtoMessage()    {}
+func (*BatchCreateFederatedBundleResponse_Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{6, 0}
+}
+
+func (m *BatchCreateFederatedBundleResponse_Result) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchCreateFederatedBundleResponse_Result.Unmarshal(m, b)
+}
+func (m *BatchCreateFederatedBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchCreateFederatedBundleResponse_Result.Marshal(b, m, deterministic)
+}
+func (m *BatchCreateFederatedBundleResponse_Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchCreateFederatedBundleResponse_Result.Merge(m, src)
+}
+func (m *BatchCreateFederatedBundleResponse_Result) XXX_Size() int {
+	return xxx_messageInfo_BatchCreateFederatedBundleResponse_Result.Size(m)
+}
+func (m *BatchCreateFederatedBundleResponse_Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchCreateFederatedBundleResponse_Result.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchCreateFederatedBundleResponse_Result proto.InternalMessageInfo
+
+func (m *BatchCreateFederatedBundleResponse_Result) GetStatus() *types.Status {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *BatchCreateFederatedBundleResponse_Result) GetBundle() *types.Bundle {
+	if m != nil {
+		return m.Bundle
+	}
+	return nil
+}
+
+type BatchUpdateFederatedBundleRequest struct {
+	// The bundles to be updated.
+	Bundle []*types.Bundle `protobuf:"bytes,1,rep,name=bundle,proto3" json:"bundle,omitempty"`
+	// An input mask indicating which bundle fields should be updated.
+	InputMask *types.BundleMask `protobuf:"bytes,2,opt,name=input_mask,json=inputMask,proto3" json:"input_mask,omitempty"`
+	// An output mask indicating which bundle fields are set in the response.
+	OutputMask           *types.BundleMask `protobuf:"bytes,3,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *BatchUpdateFederatedBundleRequest) Reset()         { *m = BatchUpdateFederatedBundleRequest{} }
+func (m *BatchUpdateFederatedBundleRequest) String() string { return proto.CompactTextString(m) }
+func (*BatchUpdateFederatedBundleRequest) ProtoMessage()    {}
+func (*BatchUpdateFederatedBundleRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{7}
+}
+
+func (m *BatchUpdateFederatedBundleRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchUpdateFederatedBundleRequest.Unmarshal(m, b)
+}
+func (m *BatchUpdateFederatedBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchUpdateFederatedBundleRequest.Marshal(b, m, deterministic)
+}
+func (m *BatchUpdateFederatedBundleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchUpdateFederatedBundleRequest.Merge(m, src)
+}
+func (m *BatchUpdateFederatedBundleRequest) XXX_Size() int {
+	return xxx_messageInfo_BatchUpdateFederatedBundleRequest.Size(m)
+}
+func (m *BatchUpdateFederatedBundleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchUpdateFederatedBundleRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchUpdateFederatedBundleRequest proto.InternalMessageInfo
+
+func (m *BatchUpdateFederatedBundleRequest) GetBundle() []*types.Bundle {
+	if m != nil {
+		return m.Bundle
+	}
+	return nil
+}
+
+func (m *BatchUpdateFederatedBundleRequest) GetInputMask() *types.BundleMask {
+	if m != nil {
+		return m.InputMask
+	}
+	return nil
+}
+
+func (m *BatchUpdateFederatedBundleRequest) GetOutputMask() *types.BundleMask {
+	if m != nil {
+		return m.OutputMask
+	}
+	return nil
+}
+
+type BatchUpdateFederatedBundleResponse struct {
+	// Result for each bundle in the request.
+	Results              []*BatchUpdateFederatedBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                     `json:"-"`
+	XXX_unrecognized     []byte                                       `json:"-"`
+	XXX_sizecache        int32                                        `json:"-"`
+}
+
+func (m *BatchUpdateFederatedBundleResponse) Reset()         { *m = BatchUpdateFederatedBundleResponse{} }
+func (m *BatchUpdateFederatedBundleResponse) String() string { return proto.CompactTextString(m) }
+func (*BatchUpdateFederatedBundleResponse) ProtoMessage()    {}
+func (*BatchUpdateFederatedBundleResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{8}
+}
+
+func (m *BatchUpdateFederatedBundleResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchUpdateFederatedBundleResponse.Unmarshal(m, b)
+}
+func (m *BatchUpdateFederatedBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchUpdateFederatedBundleResponse.Marshal(b, m, deterministic)
+}
+func (m *BatchUpdateFederatedBundleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchUpdateFederatedBundleResponse.Merge(m, src)
+}
+func (m *BatchUpdateFederatedBundleResponse) XXX_Size() int {
+	return xxx_messageInfo_BatchUpdateFederatedBundleResponse.Size(m)
+}
+func (m *BatchUpdateFederatedBundleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchUpdateFederatedBundleResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchUpdateFederatedBundleResponse proto.InternalMessageInfo
+
+func (m *BatchUpdateFederatedBundleResponse) GetResults() []*BatchUpdateFederatedBundleResponse_Result {
+	if m != nil {
+		return m.Results
+	}
+	return nil
+}
+
+type BatchUpdateFederatedBundleResponse_Result struct {
+	// The status of updating the bundle.
+	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// The bundle that was updated. This will be set if the status is OK.
+	Bundle               *types.Bundle `protobuf:"bytes,2,opt,name=bundle,proto3" json:"bundle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *BatchUpdateFederatedBundleResponse_Result) Reset() {
+	*m = BatchUpdateFederatedBundleResponse_Result{}
+}
+func (m *BatchUpdateFederatedBundleResponse_Result) String() string { return proto.CompactTextString(m) }
+func (*BatchUpdateFederatedBundleResponse_Result) ProtoMessage()    {}
+func (*BatchUpdateFederatedBundleResponse_Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{8, 0}
+}
+
+func (m *BatchUpdateFederatedBundleResponse_Result) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchUpdateFederatedBundleResponse_Result.Unmarshal(m, b)
+}
+func (m *BatchUpdateFederatedBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchUpdateFederatedBundleResponse_Result.Marshal(b, m, deterministic)
+}
+func (m *BatchUpdateFederatedBundleResponse_Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchUpdateFederatedBundleResponse_Result.Merge(m, src)
+}
+func (m *BatchUpdateFederatedBundleResponse_Result) XXX_Size() int {
+	return xxx_messageInfo_BatchUpdateFederatedBundleResponse_Result.Size(m)
+}
+func (m *BatchUpdateFederatedBundleResponse_Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchUpdateFederatedBundleResponse_Result.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchUpdateFederatedBundleResponse_Result proto.InternalMessageInfo
+
+func (m *BatchUpdateFederatedBundleResponse_Result) GetStatus() *types.Status {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *BatchUpdateFederatedBundleResponse_Result) GetBundle() *types.Bundle {
+	if m != nil {
+		return m.Bundle
+	}
+	return nil
+}
+
+type BatchSetFederatedBundleRequest struct {
+	// The bundles to be upserted.
+	Bundle []*types.Bundle `protobuf:"bytes,1,rep,name=bundle,proto3" json:"bundle,omitempty"`
+	// An output mask indicating which bundle fields are set in the response.
+	OutputMask           *types.BundleMask `protobuf:"bytes,2,opt,name=output_mask,json=outputMask,proto3" json:"output_mask,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *BatchSetFederatedBundleRequest) Reset()         { *m = BatchSetFederatedBundleRequest{} }
+func (m *BatchSetFederatedBundleRequest) String() string { return proto.CompactTextString(m) }
+func (*BatchSetFederatedBundleRequest) ProtoMessage()    {}
+func (*BatchSetFederatedBundleRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{9}
+}
+
+func (m *BatchSetFederatedBundleRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchSetFederatedBundleRequest.Unmarshal(m, b)
+}
+func (m *BatchSetFederatedBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchSetFederatedBundleRequest.Marshal(b, m, deterministic)
+}
+func (m *BatchSetFederatedBundleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchSetFederatedBundleRequest.Merge(m, src)
+}
+func (m *BatchSetFederatedBundleRequest) XXX_Size() int {
+	return xxx_messageInfo_BatchSetFederatedBundleRequest.Size(m)
+}
+func (m *BatchSetFederatedBundleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchSetFederatedBundleRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchSetFederatedBundleRequest proto.InternalMessageInfo
+
+func (m *BatchSetFederatedBundleRequest) GetBundle() []*types.Bundle {
+	if m != nil {
+		return m.Bundle
+	}
+	return nil
+}
+
+func (m *BatchSetFederatedBundleRequest) GetOutputMask() *types.BundleMask {
+	if m != nil {
+		return m.OutputMask
+	}
+	return nil
+}
+
+type BatchSetFederatedBundleResponse struct {
+	// Result for each bundle in the request.
+	Results              []*BatchSetFederatedBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                  `json:"-"`
+	XXX_unrecognized     []byte                                    `json:"-"`
+	XXX_sizecache        int32                                     `json:"-"`
+}
+
+func (m *BatchSetFederatedBundleResponse) Reset()         { *m = BatchSetFederatedBundleResponse{} }
+func (m *BatchSetFederatedBundleResponse) String() string { return proto.CompactTextString(m) }
+func (*BatchSetFederatedBundleResponse) ProtoMessage()    {}
+func (*BatchSetFederatedBundleResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{10}
+}
+
+func (m *BatchSetFederatedBundleResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchSetFederatedBundleResponse.Unmarshal(m, b)
+}
+func (m *BatchSetFederatedBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchSetFederatedBundleResponse.Marshal(b, m, deterministic)
+}
+func (m *BatchSetFederatedBundleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchSetFederatedBundleResponse.Merge(m, src)
+}
+func (m *BatchSetFederatedBundleResponse) XXX_Size() int {
+	return xxx_messageInfo_BatchSetFederatedBundleResponse.Size(m)
+}
+func (m *BatchSetFederatedBundleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchSetFederatedBundleResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchSetFederatedBundleResponse proto.InternalMessageInfo
+
+func (m *BatchSetFederatedBundleResponse) GetResults() []*BatchSetFederatedBundleResponse_Result {
+	if m != nil {
+		return m.Results
+	}
+	return nil
+}
+
+type BatchSetFederatedBundleResponse_Result struct {
+	// The status of upserting the bundle.
+	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// The bundle that was upserted. This will be set if the status is OK.
+	Bundle               *types.Bundle `protobuf:"bytes,2,opt,name=bundle,proto3" json:"bundle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *BatchSetFederatedBundleResponse_Result) Reset() {
+	*m = BatchSetFederatedBundleResponse_Result{}
+}
+func (m *BatchSetFederatedBundleResponse_Result) String() string { return proto.CompactTextString(m) }
+func (*BatchSetFederatedBundleResponse_Result) ProtoMessage()    {}
+func (*BatchSetFederatedBundleResponse_Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{10, 0}
+}
+
+func (m *BatchSetFederatedBundleResponse_Result) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchSetFederatedBundleResponse_Result.Unmarshal(m, b)
+}
+func (m *BatchSetFederatedBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchSetFederatedBundleResponse_Result.Marshal(b, m, deterministic)
+}
+func (m *BatchSetFederatedBundleResponse_Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchSetFederatedBundleResponse_Result.Merge(m, src)
+}
+func (m *BatchSetFederatedBundleResponse_Result) XXX_Size() int {
+	return xxx_messageInfo_BatchSetFederatedBundleResponse_Result.Size(m)
+}
+func (m *BatchSetFederatedBundleResponse_Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchSetFederatedBundleResponse_Result.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BatchSetFederatedBundleResponse_Result proto.InternalMessageInfo
+
+func (m *BatchSetFederatedBundleResponse_Result) GetStatus() *types.Status {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *BatchSetFederatedBundleResponse_Result) GetBundle() *types.Bundle {
+	if m != nil {
+		return m.Bundle
+	}
+	return nil
+}
+
+type BatchDeleteFederatedBundleRequest struct {
 	// The trust domains of the bundles to be deleted.
 	TrustDomains         []string `protobuf:"bytes,1,rep,name=trust_domains,json=trustDomains,proto3" json:"trust_domains,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -851,79 +717,79 @@ type BatchDeleteBundleRequest struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *BatchDeleteBundleRequest) Reset()         { *m = BatchDeleteBundleRequest{} }
-func (m *BatchDeleteBundleRequest) String() string { return proto.CompactTextString(m) }
-func (*BatchDeleteBundleRequest) ProtoMessage()    {}
-func (*BatchDeleteBundleRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{14}
+func (m *BatchDeleteFederatedBundleRequest) Reset()         { *m = BatchDeleteFederatedBundleRequest{} }
+func (m *BatchDeleteFederatedBundleRequest) String() string { return proto.CompactTextString(m) }
+func (*BatchDeleteFederatedBundleRequest) ProtoMessage()    {}
+func (*BatchDeleteFederatedBundleRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{11}
 }
 
-func (m *BatchDeleteBundleRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchDeleteBundleRequest.Unmarshal(m, b)
+func (m *BatchDeleteFederatedBundleRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchDeleteFederatedBundleRequest.Unmarshal(m, b)
 }
-func (m *BatchDeleteBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchDeleteBundleRequest.Marshal(b, m, deterministic)
+func (m *BatchDeleteFederatedBundleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchDeleteFederatedBundleRequest.Marshal(b, m, deterministic)
 }
-func (m *BatchDeleteBundleRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchDeleteBundleRequest.Merge(m, src)
+func (m *BatchDeleteFederatedBundleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchDeleteFederatedBundleRequest.Merge(m, src)
 }
-func (m *BatchDeleteBundleRequest) XXX_Size() int {
-	return xxx_messageInfo_BatchDeleteBundleRequest.Size(m)
+func (m *BatchDeleteFederatedBundleRequest) XXX_Size() int {
+	return xxx_messageInfo_BatchDeleteFederatedBundleRequest.Size(m)
 }
-func (m *BatchDeleteBundleRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchDeleteBundleRequest.DiscardUnknown(m)
+func (m *BatchDeleteFederatedBundleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchDeleteFederatedBundleRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_BatchDeleteBundleRequest proto.InternalMessageInfo
+var xxx_messageInfo_BatchDeleteFederatedBundleRequest proto.InternalMessageInfo
 
-func (m *BatchDeleteBundleRequest) GetTrustDomains() []string {
+func (m *BatchDeleteFederatedBundleRequest) GetTrustDomains() []string {
 	if m != nil {
 		return m.TrustDomains
 	}
 	return nil
 }
 
-type BatchDeleteBundleResponse struct {
+type BatchDeleteFederatedBundleResponse struct {
 	// Result for each bundle in the request.
-	Results              []*BatchDeleteBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                            `json:"-"`
-	XXX_unrecognized     []byte                              `json:"-"`
-	XXX_sizecache        int32                               `json:"-"`
+	Results              []*BatchDeleteFederatedBundleResponse_Result `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                     `json:"-"`
+	XXX_unrecognized     []byte                                       `json:"-"`
+	XXX_sizecache        int32                                        `json:"-"`
 }
 
-func (m *BatchDeleteBundleResponse) Reset()         { *m = BatchDeleteBundleResponse{} }
-func (m *BatchDeleteBundleResponse) String() string { return proto.CompactTextString(m) }
-func (*BatchDeleteBundleResponse) ProtoMessage()    {}
-func (*BatchDeleteBundleResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{15}
+func (m *BatchDeleteFederatedBundleResponse) Reset()         { *m = BatchDeleteFederatedBundleResponse{} }
+func (m *BatchDeleteFederatedBundleResponse) String() string { return proto.CompactTextString(m) }
+func (*BatchDeleteFederatedBundleResponse) ProtoMessage()    {}
+func (*BatchDeleteFederatedBundleResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{12}
 }
 
-func (m *BatchDeleteBundleResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchDeleteBundleResponse.Unmarshal(m, b)
+func (m *BatchDeleteFederatedBundleResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchDeleteFederatedBundleResponse.Unmarshal(m, b)
 }
-func (m *BatchDeleteBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchDeleteBundleResponse.Marshal(b, m, deterministic)
+func (m *BatchDeleteFederatedBundleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchDeleteFederatedBundleResponse.Marshal(b, m, deterministic)
 }
-func (m *BatchDeleteBundleResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchDeleteBundleResponse.Merge(m, src)
+func (m *BatchDeleteFederatedBundleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchDeleteFederatedBundleResponse.Merge(m, src)
 }
-func (m *BatchDeleteBundleResponse) XXX_Size() int {
-	return xxx_messageInfo_BatchDeleteBundleResponse.Size(m)
+func (m *BatchDeleteFederatedBundleResponse) XXX_Size() int {
+	return xxx_messageInfo_BatchDeleteFederatedBundleResponse.Size(m)
 }
-func (m *BatchDeleteBundleResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchDeleteBundleResponse.DiscardUnknown(m)
+func (m *BatchDeleteFederatedBundleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchDeleteFederatedBundleResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_BatchDeleteBundleResponse proto.InternalMessageInfo
+var xxx_messageInfo_BatchDeleteFederatedBundleResponse proto.InternalMessageInfo
 
-func (m *BatchDeleteBundleResponse) GetResults() []*BatchDeleteBundleResponse_Result {
+func (m *BatchDeleteFederatedBundleResponse) GetResults() []*BatchDeleteFederatedBundleResponse_Result {
 	if m != nil {
 		return m.Results
 	}
 	return nil
 }
 
-type BatchDeleteBundleResponse_Result struct {
+type BatchDeleteFederatedBundleResponse_Result struct {
 	// The status of deleting the bundle.
 	Status *types.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// The trust domain of the bundle that was deleted.
@@ -933,39 +799,41 @@ type BatchDeleteBundleResponse_Result struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *BatchDeleteBundleResponse_Result) Reset()         { *m = BatchDeleteBundleResponse_Result{} }
-func (m *BatchDeleteBundleResponse_Result) String() string { return proto.CompactTextString(m) }
-func (*BatchDeleteBundleResponse_Result) ProtoMessage()    {}
-func (*BatchDeleteBundleResponse_Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cf01a1817f9fc5c2, []int{15, 0}
+func (m *BatchDeleteFederatedBundleResponse_Result) Reset() {
+	*m = BatchDeleteFederatedBundleResponse_Result{}
+}
+func (m *BatchDeleteFederatedBundleResponse_Result) String() string { return proto.CompactTextString(m) }
+func (*BatchDeleteFederatedBundleResponse_Result) ProtoMessage()    {}
+func (*BatchDeleteFederatedBundleResponse_Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cf01a1817f9fc5c2, []int{12, 0}
 }
 
-func (m *BatchDeleteBundleResponse_Result) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BatchDeleteBundleResponse_Result.Unmarshal(m, b)
+func (m *BatchDeleteFederatedBundleResponse_Result) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BatchDeleteFederatedBundleResponse_Result.Unmarshal(m, b)
 }
-func (m *BatchDeleteBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BatchDeleteBundleResponse_Result.Marshal(b, m, deterministic)
+func (m *BatchDeleteFederatedBundleResponse_Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BatchDeleteFederatedBundleResponse_Result.Marshal(b, m, deterministic)
 }
-func (m *BatchDeleteBundleResponse_Result) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BatchDeleteBundleResponse_Result.Merge(m, src)
+func (m *BatchDeleteFederatedBundleResponse_Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BatchDeleteFederatedBundleResponse_Result.Merge(m, src)
 }
-func (m *BatchDeleteBundleResponse_Result) XXX_Size() int {
-	return xxx_messageInfo_BatchDeleteBundleResponse_Result.Size(m)
+func (m *BatchDeleteFederatedBundleResponse_Result) XXX_Size() int {
+	return xxx_messageInfo_BatchDeleteFederatedBundleResponse_Result.Size(m)
 }
-func (m *BatchDeleteBundleResponse_Result) XXX_DiscardUnknown() {
-	xxx_messageInfo_BatchDeleteBundleResponse_Result.DiscardUnknown(m)
+func (m *BatchDeleteFederatedBundleResponse_Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_BatchDeleteFederatedBundleResponse_Result.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_BatchDeleteBundleResponse_Result proto.InternalMessageInfo
+var xxx_messageInfo_BatchDeleteFederatedBundleResponse_Result proto.InternalMessageInfo
 
-func (m *BatchDeleteBundleResponse_Result) GetStatus() *types.Status {
+func (m *BatchDeleteFederatedBundleResponse_Result) GetStatus() *types.Status {
 	if m != nil {
 		return m.Status
 	}
 	return nil
 }
 
-func (m *BatchDeleteBundleResponse_Result) GetTrustDomain() string {
+func (m *BatchDeleteFederatedBundleResponse_Result) GetTrustDomain() string {
 	if m != nil {
 		return m.TrustDomain
 	}
@@ -973,81 +841,74 @@ func (m *BatchDeleteBundleResponse_Result) GetTrustDomain() string {
 }
 
 func init() {
-	proto.RegisterType((*ListBundlesRequest)(nil), "spire.api.server.bundle.v1.ListBundlesRequest")
-	proto.RegisterType((*ListBundlesResponse)(nil), "spire.api.server.bundle.v1.ListBundlesResponse")
 	proto.RegisterType((*GetBundleRequest)(nil), "spire.api.server.bundle.v1.GetBundleRequest")
-	proto.RegisterType((*CreateBundleRequest)(nil), "spire.api.server.bundle.v1.CreateBundleRequest")
-	proto.RegisterType((*BatchCreateBundleRequest)(nil), "spire.api.server.bundle.v1.BatchCreateBundleRequest")
-	proto.RegisterType((*BatchCreateBundleResponse)(nil), "spire.api.server.bundle.v1.BatchCreateBundleResponse")
-	proto.RegisterType((*BatchCreateBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchCreateBundleResponse.Result")
-	proto.RegisterType((*UpdateBundleRequest)(nil), "spire.api.server.bundle.v1.UpdateBundleRequest")
-	proto.RegisterType((*BatchUpdateBundleRequest)(nil), "spire.api.server.bundle.v1.BatchUpdateBundleRequest")
-	proto.RegisterType((*BatchUpdateBundleResponse)(nil), "spire.api.server.bundle.v1.BatchUpdateBundleResponse")
-	proto.RegisterType((*BatchUpdateBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchUpdateBundleResponse.Result")
-	proto.RegisterType((*SetBundleRequest)(nil), "spire.api.server.bundle.v1.SetBundleRequest")
-	proto.RegisterType((*BatchSetBundleRequest)(nil), "spire.api.server.bundle.v1.BatchSetBundleRequest")
-	proto.RegisterType((*BatchSetBundleResponse)(nil), "spire.api.server.bundle.v1.BatchSetBundleResponse")
-	proto.RegisterType((*BatchSetBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchSetBundleResponse.Result")
 	proto.RegisterType((*AppendBundleRequest)(nil), "spire.api.server.bundle.v1.AppendBundleRequest")
-	proto.RegisterType((*DeleteBundleRequest)(nil), "spire.api.server.bundle.v1.DeleteBundleRequest")
-	proto.RegisterType((*BatchDeleteBundleRequest)(nil), "spire.api.server.bundle.v1.BatchDeleteBundleRequest")
-	proto.RegisterType((*BatchDeleteBundleResponse)(nil), "spire.api.server.bundle.v1.BatchDeleteBundleResponse")
-	proto.RegisterType((*BatchDeleteBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchDeleteBundleResponse.Result")
+	proto.RegisterType((*ListFederatedBundlesRequest)(nil), "spire.api.server.bundle.v1.ListFederatedBundlesRequest")
+	proto.RegisterType((*ListFederatedBundlesResponse)(nil), "spire.api.server.bundle.v1.ListFederatedBundlesResponse")
+	proto.RegisterType((*GetFederatedBundleRequest)(nil), "spire.api.server.bundle.v1.GetFederatedBundleRequest")
+	proto.RegisterType((*BatchCreateFederatedBundleRequest)(nil), "spire.api.server.bundle.v1.BatchCreateFederatedBundleRequest")
+	proto.RegisterType((*BatchCreateFederatedBundleResponse)(nil), "spire.api.server.bundle.v1.BatchCreateFederatedBundleResponse")
+	proto.RegisterType((*BatchCreateFederatedBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchCreateFederatedBundleResponse.Result")
+	proto.RegisterType((*BatchUpdateFederatedBundleRequest)(nil), "spire.api.server.bundle.v1.BatchUpdateFederatedBundleRequest")
+	proto.RegisterType((*BatchUpdateFederatedBundleResponse)(nil), "spire.api.server.bundle.v1.BatchUpdateFederatedBundleResponse")
+	proto.RegisterType((*BatchUpdateFederatedBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchUpdateFederatedBundleResponse.Result")
+	proto.RegisterType((*BatchSetFederatedBundleRequest)(nil), "spire.api.server.bundle.v1.BatchSetFederatedBundleRequest")
+	proto.RegisterType((*BatchSetFederatedBundleResponse)(nil), "spire.api.server.bundle.v1.BatchSetFederatedBundleResponse")
+	proto.RegisterType((*BatchSetFederatedBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchSetFederatedBundleResponse.Result")
+	proto.RegisterType((*BatchDeleteFederatedBundleRequest)(nil), "spire.api.server.bundle.v1.BatchDeleteFederatedBundleRequest")
+	proto.RegisterType((*BatchDeleteFederatedBundleResponse)(nil), "spire.api.server.bundle.v1.BatchDeleteFederatedBundleResponse")
+	proto.RegisterType((*BatchDeleteFederatedBundleResponse_Result)(nil), "spire.api.server.bundle.v1.BatchDeleteFederatedBundleResponse.Result")
 }
 
 func init() { proto.RegisterFile("bundle.proto", fileDescriptor_cf01a1817f9fc5c2) }
 
 var fileDescriptor_cf01a1817f9fc5c2 = []byte{
-	// 777 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x57, 0x4f, 0x6f, 0xd3, 0x30,
-	0x14, 0x57, 0x5a, 0xd1, 0xad, 0xaf, 0x1d, 0x0c, 0x57, 0x8c, 0x92, 0x69, 0x52, 0x29, 0x12, 0xaa,
-	0x04, 0x73, 0xb4, 0x32, 0xd0, 0x10, 0x48, 0x88, 0x32, 0xe0, 0x02, 0x13, 0x4a, 0xc7, 0x1f, 0x71,
-	0xa9, 0xd2, 0xd5, 0xeb, 0xa2, 0xb5, 0x49, 0x88, 0x9d, 0xc1, 0x26, 0x84, 0xe0, 0xca, 0xe7, 0xe1,
-	0xc2, 0x87, 0xe0, 0xc0, 0x89, 0x4f, 0xc2, 0x1d, 0xc5, 0x4e, 0x46, 0x92, 0x7a, 0x49, 0xda, 0x09,
-	0x8d, 0x9b, 0x65, 0xbf, 0xf7, 0x7b, 0x7f, 0x7e, 0xcf, 0xef, 0xd9, 0x50, 0xed, 0x7b, 0xd6, 0x60,
-	0x44, 0xb0, 0xe3, 0xda, 0xcc, 0x46, 0x2a, 0x75, 0x4c, 0x97, 0x60, 0xc3, 0x31, 0x31, 0x25, 0xee,
-	0x01, 0x71, 0x71, 0x70, 0x7c, 0xb0, 0xa6, 0x2e, 0x0f, 0x6d, 0x7b, 0x38, 0x22, 0x1a, 0x97, 0xec,
-	0x7b, 0xbb, 0x1a, 0x19, 0x3b, 0xec, 0x50, 0x28, 0xaa, 0x2b, 0x5c, 0x71, 0xd5, 0x22, 0x1f, 0x98,
-	0xc6, 0x0e, 0x1d, 0x42, 0xb5, 0x28, 0xae, 0xe4, 0x98, 0x32, 0x83, 0x79, 0x54, 0x1c, 0x37, 0xbf,
-	0x2a, 0x80, 0x9e, 0x99, 0x94, 0x75, 0xb8, 0x0e, 0xd5, 0xc9, 0x3b, 0x8f, 0x50, 0x86, 0x36, 0xa0,
-	0x62, 0x7b, 0xcc, 0xf1, 0x58, 0x6f, 0x6c, 0xd0, 0xfd, 0xba, 0xd2, 0x50, 0x5a, 0x95, 0xf6, 0x65,
-	0x2c, 0x7c, 0xe4, 0x30, 0x58, 0x68, 0x3c, 0x37, 0xe8, 0xbe, 0x0e, 0x42, 0xd6, 0x5f, 0xa3, 0x65,
-	0x28, 0x3b, 0xc6, 0x90, 0xf4, 0xa8, 0x79, 0x44, 0xea, 0x85, 0x86, 0xd2, 0x3a, 0xa7, 0xcf, 0xfb,
-	0x1b, 0x5d, 0xf3, 0x88, 0xa0, 0x15, 0x00, 0x7e, 0xc8, 0xec, 0x7d, 0x62, 0xd5, 0x8b, 0x0d, 0xa5,
-	0x55, 0xd6, 0xb9, 0xf8, 0xb6, 0xbf, 0xd1, 0x1c, 0x41, 0x2d, 0xe6, 0x0b, 0x75, 0x6c, 0x8b, 0x12,
-	0xb4, 0x0a, 0x73, 0x22, 0x24, 0x5a, 0x57, 0x1a, 0xc5, 0x56, 0xa5, 0x5d, 0x93, 0x38, 0xa2, 0x87,
-	0x32, 0xe8, 0x3a, 0x5c, 0xf0, 0xa3, 0xed, 0x45, 0x2c, 0x15, 0xb8, 0xa5, 0x05, 0x7f, 0xfb, 0xc5,
-	0xb1, 0x35, 0x1b, 0x16, 0x9f, 0x92, 0xc0, 0x58, 0x18, 0xf7, 0x55, 0xa8, 0x32, 0xd7, 0xa3, 0xac,
-	0x37, 0xb0, 0xc7, 0x86, 0x69, 0xf1, 0xc0, 0xcb, 0x7a, 0x85, 0xef, 0x6d, 0xf2, 0xad, 0x64, 0x6a,
-	0x0a, 0xb9, 0x53, 0xd3, 0xec, 0x40, 0xed, 0x91, 0x4b, 0x0c, 0x46, 0xe2, 0x36, 0x6f, 0x40, 0x49,
-	0xb8, 0x1e, 0xa4, 0x59, 0x1a, 0x5d, 0x20, 0xd2, 0xfc, 0xa2, 0x40, 0xbd, 0x63, 0xb0, 0x9d, 0xbd,
-	0x2c, 0xa4, 0x62, 0x06, 0xd2, 0x29, 0xe2, 0xf8, 0xa5, 0xc0, 0x15, 0x89, 0x0f, 0x01, 0x5b, 0xaf,
-	0x60, 0xce, 0x25, 0xd4, 0x1b, 0xb1, 0x90, 0xad, 0xfb, 0xf8, 0xe4, 0xd2, 0xc6, 0x27, 0xe2, 0x60,
-	0x9d, 0x83, 0xe8, 0x21, 0x98, 0xda, 0x87, 0x92, 0xd8, 0xf2, 0xc3, 0x14, 0x35, 0x2c, 0x4d, 0x58,
-	0x97, 0x1f, 0xe9, 0x81, 0x48, 0x24, 0x27, 0x85, 0xec, 0xec, 0x7e, 0x53, 0xa0, 0xf6, 0xd2, 0x19,
-	0x9c, 0x8a, 0x22, 0x74, 0x07, 0xc0, 0xb4, 0xf2, 0xe6, 0xb5, 0xcc, 0x45, 0xf9, 0xcd, 0x49, 0x10,
-	0x52, 0xcc, 0x4f, 0xc8, 0xf7, 0xb0, 0x28, 0xb2, 0x7c, 0x2f, 0xfe, 0x7f, 0xbe, 0x1f, 0x17, 0x53,
-	0xdc, 0xf7, 0xd9, 0x8b, 0x49, 0x86, 0x73, 0x26, 0xc5, 0x74, 0x08, 0x8b, 0xdd, 0x64, 0x7f, 0x99,
-	0xaa, 0x90, 0x66, 0xbf, 0xa1, 0x9f, 0xe0, 0x12, 0xcf, 0x45, 0xaa, 0xfd, 0x7f, 0xd8, 0x21, 0x7e,
-	0x2a, 0xb0, 0x94, 0x74, 0x20, 0x60, 0xb4, 0x9b, 0x64, 0xf4, 0x6e, 0x26, 0xa3, 0x13, 0x20, 0x67,
-	0x42, 0xe7, 0x47, 0xa8, 0x3d, 0x74, 0x1c, 0x62, 0x0d, 0xce, 0x84, 0xd1, 0x0d, 0xa8, 0x6d, 0x92,
-	0x11, 0x49, 0x5e, 0xee, 0xec, 0x79, 0xd5, 0x7c, 0x10, 0xf4, 0x06, 0x99, 0xfa, 0x35, 0x58, 0x88,
-	0xaa, 0x0b, 0x4a, 0xca, 0x7a, 0x35, 0xa2, 0x4f, 0x9b, 0x3f, 0xc2, 0x1b, 0x1a, 0x47, 0x98, 0xfd,
-	0x86, 0xca, 0x70, 0x26, 0x28, 0x7d, 0x33, 0x1b, 0xa5, 0xc9, 0x84, 0x14, 0x26, 0x12, 0xd2, 0xfe,
-	0x3d, 0x0f, 0x25, 0x61, 0x1c, 0x59, 0x50, 0x89, 0x3c, 0x38, 0x10, 0x4e, 0x73, 0x7d, 0xf2, 0x95,
-	0xa4, 0x6a, 0xb9, 0xe5, 0x83, 0x64, 0x6d, 0x41, 0xf9, 0xf8, 0xc9, 0x81, 0x6e, 0xa6, 0x69, 0x27,
-	0x5f, 0x26, 0xaa, 0xac, 0xae, 0xd0, 0x36, 0x54, 0xa3, 0xb3, 0x13, 0xa5, 0x3a, 0x24, 0x79, 0x31,
-	0xc8, 0x51, 0x3f, 0x2b, 0x70, 0x71, 0x62, 0x2e, 0xa3, 0xf5, 0x29, 0xc7, 0xb8, 0x30, 0x70, 0x7b,
-	0xa6, 0xe1, 0xef, 0x07, 0x16, 0xed, 0xe3, 0xe9, 0x81, 0x49, 0xa6, 0x5e, 0x46, 0x60, 0x31, 0xec,
-	0xf5, 0x29, 0x47, 0x4a, 0xde, 0xc0, 0xa4, 0x03, 0x6d, 0x0b, 0xca, 0xdd, 0x7c, 0x15, 0xd0, 0xcd,
-	0x55, 0x01, 0xef, 0xe1, 0x7c, 0xbc, 0x47, 0xa2, 0xb5, 0x69, 0xfa, 0xa9, 0x40, 0x6e, 0x4f, 0xdf,
-	0x82, 0x7d, 0x86, 0xa2, 0xed, 0x30, 0x9d, 0x21, 0x49, 0xe3, 0x94, 0x87, 0xf3, 0x1a, 0xaa, 0xd1,
-	0xee, 0x90, 0x8e, 0x2a, 0xe9, 0x68, 0xea, 0x12, 0x16, 0x7f, 0x25, 0x1c, 0xfe, 0x95, 0xf0, 0x63,
-	0xff, 0xaf, 0xf4, 0x97, 0xfa, 0x18, 0xfc, 0xfa, 0x94, 0xbd, 0x2a, 0x2f, 0xf5, 0xb2, 0x0e, 0xd7,
-	0x79, 0xf2, 0x76, 0x73, 0x68, 0xb2, 0x3d, 0xaf, 0x8f, 0x77, 0xec, 0xb1, 0x46, 0x1d, 0x73, 0x77,
-	0x97, 0x68, 0x1c, 0x49, 0x7c, 0xec, 0xb4, 0xc8, 0x4f, 0xcd, 0x70, 0x4c, 0x4d, 0x40, 0x07, 0xbf,
-	0x39, 0xed, 0x60, 0xed, 0x9e, 0x58, 0xf5, 0x4b, 0x5c, 0xfa, 0xd6, 0x9f, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0x82, 0x75, 0x5d, 0x74, 0x40, 0x0e, 0x00, 0x00,
+	// 714 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x57, 0xdd, 0x4e, 0xd4, 0x40,
+	0x14, 0xce, 0x2c, 0x71, 0x61, 0x0f, 0x4b, 0x34, 0x83, 0x09, 0xb8, 0x88, 0xc2, 0x9a, 0x18, 0x13,
+	0xa5, 0x0d, 0x18, 0x95, 0x48, 0x34, 0x71, 0x45, 0xf0, 0x02, 0x8d, 0x29, 0x98, 0x18, 0x63, 0xb2,
+	0x76, 0xd9, 0x03, 0x34, 0x40, 0x3b, 0x76, 0xa6, 0x04, 0x79, 0x01, 0xa3, 0xde, 0xe9, 0xa5, 0xaf,
+	0xe1, 0x13, 0xf8, 0x22, 0x5e, 0x78, 0xe5, 0x5b, 0x98, 0xce, 0x74, 0x97, 0xba, 0x4c, 0x67, 0x6b,
+	0xd7, 0xc0, 0x5d, 0x33, 0x73, 0xe6, 0x3b, 0xdf, 0x7c, 0xe7, 0x6f, 0x0a, 0xd5, 0x56, 0xe4, 0xb7,
+	0xf7, 0xd0, 0x62, 0x61, 0x20, 0x02, 0x5a, 0xe3, 0xcc, 0x0b, 0xd1, 0x72, 0x99, 0x67, 0x71, 0x0c,
+	0x0f, 0x30, 0xb4, 0x92, 0xed, 0x83, 0xf9, 0xda, 0xb4, 0xdc, 0x9b, 0xf3, 0xf1, 0x50, 0xd8, 0xe2,
+	0x3d, 0x43, 0x6e, 0xa7, 0x8f, 0x6a, 0xb6, 0xb9, 0x70, 0x45, 0xc4, 0xd5, 0x76, 0x7d, 0x0d, 0x2e,
+	0xac, 0xa2, 0x68, 0xc8, 0x13, 0x0e, 0xbe, 0x8b, 0x90, 0x0b, 0xba, 0x08, 0xa3, 0x41, 0x24, 0x58,
+	0x24, 0x9a, 0xfb, 0x2e, 0xdf, 0x9d, 0x24, 0x33, 0xe4, 0xc6, 0xe8, 0xc2, 0x84, 0xa5, 0x38, 0x48,
+	0x0c, 0x4b, 0x1d, 0x78, 0xe6, 0xf2, 0x5d, 0x07, 0x94, 0x6d, 0xfc, 0x5d, 0xff, 0x4e, 0x60, 0xfc,
+	0x11, 0x63, 0xe8, 0xb7, 0xff, 0x46, 0xbc, 0x09, 0x65, 0x45, 0x2a, 0x01, 0x1b, 0xd7, 0x80, 0x39,
+	0x89, 0x09, 0xbd, 0x0b, 0xe0, 0xf9, 0x5d, 0xef, 0x25, 0xb3, 0xf7, 0x8a, 0x34, 0x8d, 0x3f, 0x7b,
+	0x69, 0x0f, 0xe5, 0xa7, 0xfd, 0x95, 0xc0, 0xd4, 0x9a, 0xc7, 0xc5, 0x0a, 0xb6, 0x31, 0x74, 0x05,
+	0x26, 0xec, 0xf9, 0xc0, 0x82, 0xd0, 0x29, 0xa8, 0x30, 0x77, 0x1b, 0x9b, 0xdc, 0x3b, 0x42, 0x79,
+	0x95, 0x73, 0xce, 0x48, 0xbc, 0xb0, 0xee, 0x1d, 0x21, 0x9d, 0x06, 0x90, 0x9b, 0x22, 0xd8, 0x45,
+	0x5f, 0xf2, 0xad, 0x38, 0xd2, 0x7c, 0x23, 0x5e, 0xa8, 0x47, 0x70, 0x59, 0x4f, 0x8a, 0xb3, 0xc0,
+	0xe7, 0x48, 0xe7, 0x60, 0x58, 0x29, 0xc6, 0x27, 0xc9, 0xcc, 0x50, 0x96, 0xaa, 0x1d, 0x1b, 0x7a,
+	0x1d, 0xce, 0xc7, 0x49, 0xd0, 0x4c, 0xb9, 0x2c, 0x49, 0x97, 0x63, 0xf1, 0xf2, 0x8b, 0xae, 0xdb,
+	0x43, 0xb8, 0xb4, 0x8a, 0xbd, 0x5e, 0x3b, 0x4a, 0xcc, 0x42, 0x55, 0x84, 0x11, 0x17, 0xcd, 0x76,
+	0xb0, 0xef, 0x7a, 0xbe, 0x94, 0xa2, 0xe2, 0x8c, 0xca, 0xb5, 0x65, 0xb9, 0xd4, 0x2b, 0x56, 0x29,
+	0x7f, 0x18, 0x3e, 0x11, 0x98, 0x6d, 0xb8, 0x62, 0x73, 0xe7, 0x71, 0x88, 0xae, 0xc0, 0x0c, 0x0a,
+	0xe9, 0x5c, 0x1a, 0xea, 0x97, 0x4b, 0xc5, 0xc9, 0xfc, 0x26, 0x50, 0x37, 0x91, 0x49, 0x82, 0xd0,
+	0x84, 0xe1, 0x10, 0x79, 0xb4, 0x27, 0x3a, 0x41, 0x78, 0x62, 0x65, 0xd7, 0xaa, 0xd5, 0x1f, 0xd0,
+	0x72, 0x24, 0x9a, 0xd3, 0x41, 0xad, 0xb5, 0xa0, 0xac, 0x96, 0xe2, 0x8b, 0xab, 0xd2, 0xd5, 0x16,
+	0xd1, 0xba, 0xdc, 0x72, 0x12, 0x93, 0x94, 0x4a, 0xa5, 0xbe, 0x15, 0x57, 0xff, 0xd1, 0x11, 0xfe,
+	0x25, 0x6b, 0xff, 0x27, 0xe1, 0x4f, 0xbf, 0x88, 0xbb, 0x01, 0xcb, 0xb8, 0x44, 0xf1, 0x80, 0x19,
+	0x01, 0xcf, 0x24, 0x60, 0x1f, 0x08, 0x5c, 0x91, 0xd4, 0xd6, 0x33, 0x2b, 0xf5, 0x94, 0xca, 0xe4,
+	0x17, 0x81, 0xab, 0x99, 0x4c, 0x12, 0xc9, 0xdf, 0xf4, 0x4a, 0xde, 0xe8, 0x2b, 0x79, 0x36, 0xda,
+	0x99, 0xe8, 0xfd, 0x34, 0xa9, 0x8f, 0x65, 0xdc, 0xc3, 0xcc, 0xfa, 0xb8, 0x06, 0x63, 0xe9, 0xde,
+	0xa8, 0x2e, 0x5b, 0x71, 0xaa, 0xa9, 0xe6, 0xc8, 0xeb, 0x3f, 0x3b, 0x59, 0x9a, 0x01, 0x55, 0x3c,
+	0x4b, 0x8d, 0x80, 0x27, 0x54, 0x7b, 0x55, 0x4c, 0xb5, 0xde, 0xfe, 0x5f, 0x3a, 0xd1, 0xff, 0x17,
+	0x3e, 0x8f, 0x40, 0x59, 0x39, 0xa7, 0xcf, 0xa1, 0xd2, 0x7d, 0x5c, 0xd0, 0x5b, 0xa6, 0x1b, 0xf4,
+	0xbe, 0x41, 0x6a, 0xba, 0x70, 0xd0, 0x0d, 0xa8, 0xa6, 0x5f, 0x17, 0xd4, 0x36, 0x41, 0x6a, 0xde,
+	0x21, 0x7a, 0xd4, 0x8f, 0x04, 0x2e, 0xea, 0x06, 0x2d, 0xbd, 0x67, 0x82, 0x37, 0xbc, 0x17, 0x6a,
+	0x8b, 0xff, 0x7e, 0x30, 0x89, 0xfb, 0x5b, 0xa0, 0x27, 0x87, 0x2f, 0xbd, 0xd3, 0x47, 0x3a, 0x7d,
+	0x42, 0xea, 0x6f, 0xfb, 0x8d, 0x40, 0x2d, 0x7b, 0x0c, 0xd1, 0x07, 0x45, 0xc7, 0x97, 0x72, 0xf9,
+	0x70, 0xb0, 0xe9, 0x77, 0xcc, 0x4e, 0xdb, 0x73, 0x73, 0xb0, 0x33, 0x4d, 0xb0, 0x1c, 0xec, 0xcc,
+	0xb3, 0xe3, 0x0b, 0x81, 0x89, 0x8c, 0xf6, 0x44, 0xef, 0x17, 0xea, 0x69, 0x8a, 0xd7, 0xd2, 0x00,
+	0xfd, 0xf0, 0x58, 0x32, 0x6d, 0x03, 0xc8, 0x21, 0x99, 0xa9, 0xa9, 0xe5, 0x90, 0xcc, 0xd8, 0x77,
+	0x1a, 0x2b, 0xaf, 0x97, 0xb7, 0x3d, 0xb1, 0x13, 0xb5, 0xac, 0xcd, 0x60, 0xdf, 0xe6, 0xcc, 0xdb,
+	0xda, 0x42, 0x5b, 0x42, 0xda, 0xf2, 0x07, 0xc4, 0x4e, 0xfd, 0x9e, 0xb8, 0xcc, 0xb3, 0x95, 0x8f,
+	0xe4, 0x17, 0xc6, 0x3e, 0x98, 0x5f, 0x52, 0x5f, 0xad, 0xb2, 0xb4, 0xbe, 0xfd, 0x27, 0x00, 0x00,
+	0xff, 0xff, 0x5e, 0xb2, 0x96, 0xfc, 0x18, 0x0d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1062,68 +923,41 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BundleClient interface {
-	// Lists bundles.
+	// Gets the bundle for the trust domain of the server.
 	//
-	// The caller must be local or present an admin X509-SVID.
-	ListBundles(ctx context.Context, in *ListBundlesRequest, opts ...grpc.CallOption) (*ListBundlesResponse, error)
-	// Gets a bundle. If the bundle does not exist, NOT_FOUND is returned.
-	//
-	// The caller must be local or present an admin X509-SVID, unless the
-	// bundle for the trust domain of the server is requested, in which case,
-	// the RPC is unauthenticated.
+	// The RPC does not require authentication.
 	GetBundle(ctx context.Context, in *GetBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error)
-	// Creates a bundle. If the bundle already exists, ALREADY_EXISTS is
-	// returned. If the bundle is for the trust domain of the SPIRE server,
-	// INVALID_ARGUMENT is returned.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	CreateBundle(ctx context.Context, in *CreateBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error)
-	// Batch creates one or more bundles. See CreateBundle for details on
-	// the status codes that will be returned in the results.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	BatchCreateBundle(ctx context.Context, in *BatchCreateBundleRequest, opts ...grpc.CallOption) (*BatchCreateBundleResponse, error)
-	// Updates a bundle. If the bundle does not exist, NOT_FOUND is returned.
-	// If the bundle is for the trust domain of the SPIRE server,
-	// INVALID_ARGUMENT is returned.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	UpdateBundle(ctx context.Context, in *UpdateBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error)
-	// Batch updates one or more bundles. See UpdateBundle for details on
-	// the status codes that will be returned in the results.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	BatchUpdateBundle(ctx context.Context, in *BatchUpdateBundleRequest, opts ...grpc.CallOption) (*BatchUpdateBundleResponse, error)
-	// Sets a bundle, creating a new bundle if one doesn't already exist for
-	// the trust domain, or otherwise updating the existing bundle. If the
-	// bundle is for the trust domain of the SPIRE server, INVALID_ARGUMENT is
-	// returned.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	SetBundle(ctx context.Context, in *SetBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error)
-	// Batch upserts one or more bundles. See SetBundle for details on the
-	// status codes that will be returned in the results.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	BatchSetBundle(ctx context.Context, in *BatchSetBundleRequest, opts ...grpc.CallOption) (*BatchSetBundleResponse, error)
-	// Append to a bundle. Items specified in the bundle in the request are
+	// Append to the bundle. Items specified in the bundle in the request are
 	// appended to the existing bundle. If the bundle does not exist, NOT_FOUND
 	// is returned. This is the only RPC that can be used to update the
 	// bundle for the trust domain of the SPIRE server.
 	//
 	// The caller must be local or present an admin or downstream X509-SVID.
 	AppendBundle(ctx context.Context, in *AppendBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error)
-	// Deletes a bundle. If the bundle does not exist, NOT_FOUND is returned.
-	// If the bundle is for the trust domain of the SPIRE server,
-	// INVALID_ARGUMENT is returned.
+	// Lists federated bundles.
 	//
 	// The caller must be local or present an admin X509-SVID.
-	DeleteBundle(ctx context.Context, in *DeleteBundleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	// Batch deletes one or more bundles. See DeleteBundle for details on
-	// the status codes that will be returned in the results.
+	ListFederatedBundles(ctx context.Context, in *ListFederatedBundlesRequest, opts ...grpc.CallOption) (*ListFederatedBundlesResponse, error)
+	// Gets a federated bundle. If the bundle does not exist, NOT_FOUND is returned.
+	//
+	// The caller must be local or present an admin or an active agent X509-SVID.
+	GetFederatedBundle(ctx context.Context, in *GetFederatedBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error)
+	// Batch creates one or more federated bundles.
 	//
 	// The caller must be local or present an admin X509-SVID.
-	BatchDeleteBundle(ctx context.Context, in *BatchDeleteBundleRequest, opts ...grpc.CallOption) (*BatchDeleteBundleResponse, error)
+	BatchCreateFederatedBundle(ctx context.Context, in *BatchCreateFederatedBundleRequest, opts ...grpc.CallOption) (*BatchCreateFederatedBundleResponse, error)
+	// Batch updates one or more federated bundles.
+	//
+	// The caller must be local or present an admin X509-SVID.
+	BatchUpdateFederatedBundle(ctx context.Context, in *BatchUpdateFederatedBundleRequest, opts ...grpc.CallOption) (*BatchUpdateFederatedBundleResponse, error)
+	// Batch upserts one or more federated bundles.
+	//
+	// The caller must be local or present an admin X509-SVID.
+	BatchSetFederatedBundle(ctx context.Context, in *BatchSetFederatedBundleRequest, opts ...grpc.CallOption) (*BatchSetFederatedBundleResponse, error)
+	// Batch deletes one or more federated bundles.
+	//
+	// The caller must be local or present an admin X509-SVID.
+	BatchDeleteFederatedBundle(ctx context.Context, in *BatchDeleteFederatedBundleRequest, opts ...grpc.CallOption) (*BatchDeleteFederatedBundleResponse, error)
 }
 
 type bundleClient struct {
@@ -1134,72 +968,9 @@ func NewBundleClient(cc *grpc.ClientConn) BundleClient {
 	return &bundleClient{cc}
 }
 
-func (c *bundleClient) ListBundles(ctx context.Context, in *ListBundlesRequest, opts ...grpc.CallOption) (*ListBundlesResponse, error) {
-	out := new(ListBundlesResponse)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/ListBundles", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *bundleClient) GetBundle(ctx context.Context, in *GetBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error) {
 	out := new(types.Bundle)
 	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/GetBundle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bundleClient) CreateBundle(ctx context.Context, in *CreateBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error) {
-	out := new(types.Bundle)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/CreateBundle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bundleClient) BatchCreateBundle(ctx context.Context, in *BatchCreateBundleRequest, opts ...grpc.CallOption) (*BatchCreateBundleResponse, error) {
-	out := new(BatchCreateBundleResponse)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchCreateBundle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bundleClient) UpdateBundle(ctx context.Context, in *UpdateBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error) {
-	out := new(types.Bundle)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/UpdateBundle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bundleClient) BatchUpdateBundle(ctx context.Context, in *BatchUpdateBundleRequest, opts ...grpc.CallOption) (*BatchUpdateBundleResponse, error) {
-	out := new(BatchUpdateBundleResponse)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchUpdateBundle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bundleClient) SetBundle(ctx context.Context, in *SetBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error) {
-	out := new(types.Bundle)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/SetBundle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bundleClient) BatchSetBundle(ctx context.Context, in *BatchSetBundleRequest, opts ...grpc.CallOption) (*BatchSetBundleResponse, error) {
-	out := new(BatchSetBundleResponse)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchSetBundle", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1215,18 +986,54 @@ func (c *bundleClient) AppendBundle(ctx context.Context, in *AppendBundleRequest
 	return out, nil
 }
 
-func (c *bundleClient) DeleteBundle(ctx context.Context, in *DeleteBundleRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/DeleteBundle", in, out, opts...)
+func (c *bundleClient) ListFederatedBundles(ctx context.Context, in *ListFederatedBundlesRequest, opts ...grpc.CallOption) (*ListFederatedBundlesResponse, error) {
+	out := new(ListFederatedBundlesResponse)
+	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/ListFederatedBundles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *bundleClient) BatchDeleteBundle(ctx context.Context, in *BatchDeleteBundleRequest, opts ...grpc.CallOption) (*BatchDeleteBundleResponse, error) {
-	out := new(BatchDeleteBundleResponse)
-	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchDeleteBundle", in, out, opts...)
+func (c *bundleClient) GetFederatedBundle(ctx context.Context, in *GetFederatedBundleRequest, opts ...grpc.CallOption) (*types.Bundle, error) {
+	out := new(types.Bundle)
+	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/GetFederatedBundle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bundleClient) BatchCreateFederatedBundle(ctx context.Context, in *BatchCreateFederatedBundleRequest, opts ...grpc.CallOption) (*BatchCreateFederatedBundleResponse, error) {
+	out := new(BatchCreateFederatedBundleResponse)
+	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchCreateFederatedBundle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bundleClient) BatchUpdateFederatedBundle(ctx context.Context, in *BatchUpdateFederatedBundleRequest, opts ...grpc.CallOption) (*BatchUpdateFederatedBundleResponse, error) {
+	out := new(BatchUpdateFederatedBundleResponse)
+	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchUpdateFederatedBundle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bundleClient) BatchSetFederatedBundle(ctx context.Context, in *BatchSetFederatedBundleRequest, opts ...grpc.CallOption) (*BatchSetFederatedBundleResponse, error) {
+	out := new(BatchSetFederatedBundleResponse)
+	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchSetFederatedBundle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bundleClient) BatchDeleteFederatedBundle(ctx context.Context, in *BatchDeleteFederatedBundleRequest, opts ...grpc.CallOption) (*BatchDeleteFederatedBundleResponse, error) {
+	out := new(BatchDeleteFederatedBundleResponse)
+	err := c.cc.Invoke(ctx, "/spire.api.server.bundle.v1.Bundle/BatchDeleteFederatedBundle", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1235,128 +1042,74 @@ func (c *bundleClient) BatchDeleteBundle(ctx context.Context, in *BatchDeleteBun
 
 // BundleServer is the server API for Bundle service.
 type BundleServer interface {
-	// Lists bundles.
+	// Gets the bundle for the trust domain of the server.
 	//
-	// The caller must be local or present an admin X509-SVID.
-	ListBundles(context.Context, *ListBundlesRequest) (*ListBundlesResponse, error)
-	// Gets a bundle. If the bundle does not exist, NOT_FOUND is returned.
-	//
-	// The caller must be local or present an admin X509-SVID, unless the
-	// bundle for the trust domain of the server is requested, in which case,
-	// the RPC is unauthenticated.
+	// The RPC does not require authentication.
 	GetBundle(context.Context, *GetBundleRequest) (*types.Bundle, error)
-	// Creates a bundle. If the bundle already exists, ALREADY_EXISTS is
-	// returned. If the bundle is for the trust domain of the SPIRE server,
-	// INVALID_ARGUMENT is returned.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	CreateBundle(context.Context, *CreateBundleRequest) (*types.Bundle, error)
-	// Batch creates one or more bundles. See CreateBundle for details on
-	// the status codes that will be returned in the results.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	BatchCreateBundle(context.Context, *BatchCreateBundleRequest) (*BatchCreateBundleResponse, error)
-	// Updates a bundle. If the bundle does not exist, NOT_FOUND is returned.
-	// If the bundle is for the trust domain of the SPIRE server,
-	// INVALID_ARGUMENT is returned.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	UpdateBundle(context.Context, *UpdateBundleRequest) (*types.Bundle, error)
-	// Batch updates one or more bundles. See UpdateBundle for details on
-	// the status codes that will be returned in the results.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	BatchUpdateBundle(context.Context, *BatchUpdateBundleRequest) (*BatchUpdateBundleResponse, error)
-	// Sets a bundle, creating a new bundle if one doesn't already exist for
-	// the trust domain, or otherwise updating the existing bundle. If the
-	// bundle is for the trust domain of the SPIRE server, INVALID_ARGUMENT is
-	// returned.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	SetBundle(context.Context, *SetBundleRequest) (*types.Bundle, error)
-	// Batch upserts one or more bundles. See SetBundle for details on the
-	// status codes that will be returned in the results.
-	//
-	// The caller must be local or present an admin X509-SVID.
-	BatchSetBundle(context.Context, *BatchSetBundleRequest) (*BatchSetBundleResponse, error)
-	// Append to a bundle. Items specified in the bundle in the request are
+	// Append to the bundle. Items specified in the bundle in the request are
 	// appended to the existing bundle. If the bundle does not exist, NOT_FOUND
 	// is returned. This is the only RPC that can be used to update the
 	// bundle for the trust domain of the SPIRE server.
 	//
 	// The caller must be local or present an admin or downstream X509-SVID.
 	AppendBundle(context.Context, *AppendBundleRequest) (*types.Bundle, error)
-	// Deletes a bundle. If the bundle does not exist, NOT_FOUND is returned.
-	// If the bundle is for the trust domain of the SPIRE server,
-	// INVALID_ARGUMENT is returned.
+	// Lists federated bundles.
 	//
 	// The caller must be local or present an admin X509-SVID.
-	DeleteBundle(context.Context, *DeleteBundleRequest) (*empty.Empty, error)
-	// Batch deletes one or more bundles. See DeleteBundle for details on
-	// the status codes that will be returned in the results.
+	ListFederatedBundles(context.Context, *ListFederatedBundlesRequest) (*ListFederatedBundlesResponse, error)
+	// Gets a federated bundle. If the bundle does not exist, NOT_FOUND is returned.
+	//
+	// The caller must be local or present an admin or an active agent X509-SVID.
+	GetFederatedBundle(context.Context, *GetFederatedBundleRequest) (*types.Bundle, error)
+	// Batch creates one or more federated bundles.
 	//
 	// The caller must be local or present an admin X509-SVID.
-	BatchDeleteBundle(context.Context, *BatchDeleteBundleRequest) (*BatchDeleteBundleResponse, error)
+	BatchCreateFederatedBundle(context.Context, *BatchCreateFederatedBundleRequest) (*BatchCreateFederatedBundleResponse, error)
+	// Batch updates one or more federated bundles.
+	//
+	// The caller must be local or present an admin X509-SVID.
+	BatchUpdateFederatedBundle(context.Context, *BatchUpdateFederatedBundleRequest) (*BatchUpdateFederatedBundleResponse, error)
+	// Batch upserts one or more federated bundles.
+	//
+	// The caller must be local or present an admin X509-SVID.
+	BatchSetFederatedBundle(context.Context, *BatchSetFederatedBundleRequest) (*BatchSetFederatedBundleResponse, error)
+	// Batch deletes one or more federated bundles.
+	//
+	// The caller must be local or present an admin X509-SVID.
+	BatchDeleteFederatedBundle(context.Context, *BatchDeleteFederatedBundleRequest) (*BatchDeleteFederatedBundleResponse, error)
 }
 
 // UnimplementedBundleServer can be embedded to have forward compatible implementations.
 type UnimplementedBundleServer struct {
 }
 
-func (*UnimplementedBundleServer) ListBundles(ctx context.Context, req *ListBundlesRequest) (*ListBundlesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListBundles not implemented")
-}
 func (*UnimplementedBundleServer) GetBundle(ctx context.Context, req *GetBundleRequest) (*types.Bundle, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBundle not implemented")
-}
-func (*UnimplementedBundleServer) CreateBundle(ctx context.Context, req *CreateBundleRequest) (*types.Bundle, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateBundle not implemented")
-}
-func (*UnimplementedBundleServer) BatchCreateBundle(ctx context.Context, req *BatchCreateBundleRequest) (*BatchCreateBundleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BatchCreateBundle not implemented")
-}
-func (*UnimplementedBundleServer) UpdateBundle(ctx context.Context, req *UpdateBundleRequest) (*types.Bundle, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateBundle not implemented")
-}
-func (*UnimplementedBundleServer) BatchUpdateBundle(ctx context.Context, req *BatchUpdateBundleRequest) (*BatchUpdateBundleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BatchUpdateBundle not implemented")
-}
-func (*UnimplementedBundleServer) SetBundle(ctx context.Context, req *SetBundleRequest) (*types.Bundle, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetBundle not implemented")
-}
-func (*UnimplementedBundleServer) BatchSetBundle(ctx context.Context, req *BatchSetBundleRequest) (*BatchSetBundleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BatchSetBundle not implemented")
 }
 func (*UnimplementedBundleServer) AppendBundle(ctx context.Context, req *AppendBundleRequest) (*types.Bundle, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AppendBundle not implemented")
 }
-func (*UnimplementedBundleServer) DeleteBundle(ctx context.Context, req *DeleteBundleRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteBundle not implemented")
+func (*UnimplementedBundleServer) ListFederatedBundles(ctx context.Context, req *ListFederatedBundlesRequest) (*ListFederatedBundlesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFederatedBundles not implemented")
 }
-func (*UnimplementedBundleServer) BatchDeleteBundle(ctx context.Context, req *BatchDeleteBundleRequest) (*BatchDeleteBundleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BatchDeleteBundle not implemented")
+func (*UnimplementedBundleServer) GetFederatedBundle(ctx context.Context, req *GetFederatedBundleRequest) (*types.Bundle, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFederatedBundle not implemented")
+}
+func (*UnimplementedBundleServer) BatchCreateFederatedBundle(ctx context.Context, req *BatchCreateFederatedBundleRequest) (*BatchCreateFederatedBundleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreateFederatedBundle not implemented")
+}
+func (*UnimplementedBundleServer) BatchUpdateFederatedBundle(ctx context.Context, req *BatchUpdateFederatedBundleRequest) (*BatchUpdateFederatedBundleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchUpdateFederatedBundle not implemented")
+}
+func (*UnimplementedBundleServer) BatchSetFederatedBundle(ctx context.Context, req *BatchSetFederatedBundleRequest) (*BatchSetFederatedBundleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchSetFederatedBundle not implemented")
+}
+func (*UnimplementedBundleServer) BatchDeleteFederatedBundle(ctx context.Context, req *BatchDeleteFederatedBundleRequest) (*BatchDeleteFederatedBundleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchDeleteFederatedBundle not implemented")
 }
 
 func RegisterBundleServer(s *grpc.Server, srv BundleServer) {
 	s.RegisterService(&_Bundle_serviceDesc, srv)
-}
-
-func _Bundle_ListBundles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListBundlesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).ListBundles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/ListBundles",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).ListBundles(ctx, req.(*ListBundlesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Bundle_GetBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1373,114 +1126,6 @@ func _Bundle_GetBundle_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BundleServer).GetBundle(ctx, req.(*GetBundleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Bundle_CreateBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateBundleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).CreateBundle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/CreateBundle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).CreateBundle(ctx, req.(*CreateBundleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Bundle_BatchCreateBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchCreateBundleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).BatchCreateBundle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchCreateBundle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).BatchCreateBundle(ctx, req.(*BatchCreateBundleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Bundle_UpdateBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateBundleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).UpdateBundle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/UpdateBundle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).UpdateBundle(ctx, req.(*UpdateBundleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Bundle_BatchUpdateBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchUpdateBundleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).BatchUpdateBundle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchUpdateBundle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).BatchUpdateBundle(ctx, req.(*BatchUpdateBundleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Bundle_SetBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetBundleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).SetBundle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/SetBundle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).SetBundle(ctx, req.(*SetBundleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Bundle_BatchSetBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchSetBundleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BundleServer).BatchSetBundle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchSetBundle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).BatchSetBundle(ctx, req.(*BatchSetBundleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1503,38 +1148,110 @@ func _Bundle_AppendBundle_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Bundle_DeleteBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteBundleRequest)
+func _Bundle_ListFederatedBundles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFederatedBundlesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BundleServer).DeleteBundle(ctx, in)
+		return srv.(BundleServer).ListFederatedBundles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/DeleteBundle",
+		FullMethod: "/spire.api.server.bundle.v1.Bundle/ListFederatedBundles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).DeleteBundle(ctx, req.(*DeleteBundleRequest))
+		return srv.(BundleServer).ListFederatedBundles(ctx, req.(*ListFederatedBundlesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Bundle_BatchDeleteBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchDeleteBundleRequest)
+func _Bundle_GetFederatedBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFederatedBundleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BundleServer).BatchDeleteBundle(ctx, in)
+		return srv.(BundleServer).GetFederatedBundle(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchDeleteBundle",
+		FullMethod: "/spire.api.server.bundle.v1.Bundle/GetFederatedBundle",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BundleServer).BatchDeleteBundle(ctx, req.(*BatchDeleteBundleRequest))
+		return srv.(BundleServer).GetFederatedBundle(ctx, req.(*GetFederatedBundleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bundle_BatchCreateFederatedBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateFederatedBundleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BundleServer).BatchCreateFederatedBundle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchCreateFederatedBundle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BundleServer).BatchCreateFederatedBundle(ctx, req.(*BatchCreateFederatedBundleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bundle_BatchUpdateFederatedBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchUpdateFederatedBundleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BundleServer).BatchUpdateFederatedBundle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchUpdateFederatedBundle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BundleServer).BatchUpdateFederatedBundle(ctx, req.(*BatchUpdateFederatedBundleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bundle_BatchSetFederatedBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchSetFederatedBundleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BundleServer).BatchSetFederatedBundle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchSetFederatedBundle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BundleServer).BatchSetFederatedBundle(ctx, req.(*BatchSetFederatedBundleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bundle_BatchDeleteFederatedBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchDeleteFederatedBundleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BundleServer).BatchDeleteFederatedBundle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spire.api.server.bundle.v1.Bundle/BatchDeleteFederatedBundle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BundleServer).BatchDeleteFederatedBundle(ctx, req.(*BatchDeleteFederatedBundleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1544,48 +1261,36 @@ var _Bundle_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*BundleServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListBundles",
-			Handler:    _Bundle_ListBundles_Handler,
-		},
-		{
 			MethodName: "GetBundle",
 			Handler:    _Bundle_GetBundle_Handler,
-		},
-		{
-			MethodName: "CreateBundle",
-			Handler:    _Bundle_CreateBundle_Handler,
-		},
-		{
-			MethodName: "BatchCreateBundle",
-			Handler:    _Bundle_BatchCreateBundle_Handler,
-		},
-		{
-			MethodName: "UpdateBundle",
-			Handler:    _Bundle_UpdateBundle_Handler,
-		},
-		{
-			MethodName: "BatchUpdateBundle",
-			Handler:    _Bundle_BatchUpdateBundle_Handler,
-		},
-		{
-			MethodName: "SetBundle",
-			Handler:    _Bundle_SetBundle_Handler,
-		},
-		{
-			MethodName: "BatchSetBundle",
-			Handler:    _Bundle_BatchSetBundle_Handler,
 		},
 		{
 			MethodName: "AppendBundle",
 			Handler:    _Bundle_AppendBundle_Handler,
 		},
 		{
-			MethodName: "DeleteBundle",
-			Handler:    _Bundle_DeleteBundle_Handler,
+			MethodName: "ListFederatedBundles",
+			Handler:    _Bundle_ListFederatedBundles_Handler,
 		},
 		{
-			MethodName: "BatchDeleteBundle",
-			Handler:    _Bundle_BatchDeleteBundle_Handler,
+			MethodName: "GetFederatedBundle",
+			Handler:    _Bundle_GetFederatedBundle_Handler,
+		},
+		{
+			MethodName: "BatchCreateFederatedBundle",
+			Handler:    _Bundle_BatchCreateFederatedBundle_Handler,
+		},
+		{
+			MethodName: "BatchUpdateFederatedBundle",
+			Handler:    _Bundle_BatchUpdateFederatedBundle_Handler,
+		},
+		{
+			MethodName: "BatchSetFederatedBundle",
+			Handler:    _Bundle_BatchSetFederatedBundle_Handler,
+		},
+		{
+			MethodName: "BatchDeleteFederatedBundle",
+			Handler:    _Bundle_BatchDeleteFederatedBundle_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
