@@ -153,6 +153,7 @@ protos := \
 	proto/spire-next/types/jointoken.proto \
 	proto/spire-next/types/jwtsvid.proto \
 	proto/spire-next/types/selector.proto \
+	proto/spire-next/types/spiffeid.proto \
 	proto/spire-next/types/status.proto \
 	proto/spire-next/types/x509svid.proto \
 
