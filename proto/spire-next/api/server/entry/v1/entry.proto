@@ -2,7 +2,6 @@ syntax = "proto3";
 package spire.api.server.entry.v1;
 option go_package = "github.com/spiffe/spire/proto/spire-next/api/server/entry/v1;entry";
 
-import "google/protobuf/empty.proto";
 import "spire-next/types/entry.proto";
 import "spire-next/types/selector.proto";
 import "spire-next/types/spiffeid.proto";
@@ -20,38 +19,15 @@ service Entry {
     // The caller must be local or present an admin X509-SVID.
     rpc GetEntry(GetEntryRequest) returns (spire.types.Entry);
 
-    // Creates an entry. If a similar already exists, ALREADY_EXISTS is
-    // returned.  An entry is similar if it has the same spiffe_id, parent_id,
-    // and selectors.
-    //
-    // The caller must be local or present an admin X509-SVID.
-    rpc CreateEntry(CreateEntryRequest) returns (spire.types.Entry);
-
     // Batch creates one or more entries.
     //
     // The caller must be local or present an admin X509-SVID.
     rpc BatchCreateEntry(BatchCreateEntryRequest) returns (BatchCreateEntryResponse);
 
-    // Creates an entry if a similar entry does not already exist. An entry is
-    // similar if it has the same spiffe_id, parent_id, and selectors.
-    //
-    // The caller must be local or present an admin X509-SVID.
-    rpc CreateEntryIfNotExists(CreateEntryIfNotExistsRequest) returns (CreateEntryIfNotExistsResponse);
-
-    // Updates an entry. If the entry does not exist, NOT_FOUND is returned.
-    //
-    // The caller must be local or present an admin X509-SVID.
-    rpc UpdateEntry(UpdateEntryRequest) returns (spire.types.Entry);
-
     // Batch updates one or more entries.
     //
     // The caller must be local or present an admin X509-SVID.
     rpc BatchUpdateEntry(BatchUpdateEntryRequest) returns (BatchUpdateEntryResponse);
-
-    // Deletes an entry. If the entry does not exist, NOT_FOUND is returned.
-    //
-    // The caller must be local or present an admin X509-SVID.
-    rpc DeleteEntry(DeleteEntryRequest) returns (google.protobuf.Empty);
 
     // Batch deletes one or more entries.
     //
@@ -103,35 +79,6 @@ message GetEntryRequest {
     spire.types.EntryMask output_mask = 2;
 }
 
-message CreateEntryRequest {
-    // Required. The entry to be created. The entry ID field is output only,
-    // and will be ignored here.
-    spire.types.Entry entry = 1;
-
-    // An output mask indicating the entry fields set in the response.
-    spire.types.EntryMask output_mask = 2;
-}
-
-message CreateEntryIfNotExistsRequest {
-    // Required. The entry to be created. The entry ID field is output only,
-    // and will be ignored here.
-    spire.types.Entry entry = 1;
-
-    // An output mask indicating the entry fields set in the response.
-    spire.types.EntryMask output_mask = 2;
-}
-
-message CreateEntryIfNotExistsResponse {
-    // Either the preexisting or the newly created entry (see the preexisting
-    // field).
-    spire.types.Entry entry = 1;
-
-    // If true, entry is a preexisting entry. If false, entry is the newly
-    // created entry.
-    bool preexisting = 2;
-}
-
-
 message BatchCreateEntryRequest {
     // The entries to be created. The entry ID field is output only, and will
     // be ignored here.
@@ -143,30 +90,20 @@ message BatchCreateEntryRequest {
 
 message BatchCreateEntryResponse {
     message Result {
-        // The status of creating the entry.
+        // The status of creating the entry. If status code will be
+        // ALREADY_EXISTS if a similar entry already exists. An entry is
+        // similar if it has the same spiffe_id, parent_id, and selectors.
         spire.types.Status status = 1;
 
-        // The entry that was created. If the status is OK, it will be the
-        // entry that was created. If it the status is ALREADY_EXISTS, it will
-        // be the similar entry that already exists. See CreateEntryIfNotExists
-        // for details on what constitutes a similar entry. If the status is
-        // any other value, this field will not be set.
+        // The entry that was created (.e.g status code is OK) or that already
+        // exists (i.e. status code is ALREADY_EXISTS).
+        //
+        // If the status code is any other value, this field will not be set.
         spire.types.Entry entry = 2;
     }
 
     // Result for each entry in the request.
     repeated Result results = 1;
-}
-
-message UpdateEntryRequest {
-    // Required. The updated entry.
-    spire.types.Entry entry = 1;
-
-    // An input mask indicating what entry fields should be updated.
-    spire.types.EntryMask input_mask = 2;
-
-    // An output mask indicating what entry fields are set in the response.
-    spire.types.EntryMask output_mask = 3;
 }
 
 message BatchUpdateEntryRequest {
@@ -193,11 +130,6 @@ message BatchUpdateEntryResponse {
 
     // Result for each entry in the request.
     repeated Result results = 1;
-}
-
-message DeleteEntryRequest {
-    // Required. ID of the entry to delete.
-    string id = 1;
 }
 
 message BatchDeleteEntryRequest {
